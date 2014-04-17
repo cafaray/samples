@@ -1,8 +1,9 @@
 package com.palestra.wf.dao
 
 import com.palestra.wf.exception.WorkFlowException;
+import com.palestra.wf.modelo.FlujoTrabajo;
 
-interface FlujoTrabajo {
+interface IFlujoTrabajo {
 	FlujoTrabajo registraFlujoTrabajo(FlujoTrabajo flujoTrabajo) throws WorkFlowException;
 	FlujoTrabajo publicaFlujoTrabajo(String identificador) throws WorkFlowException;
 	FlujoTrabajo obtenerUltimaVersion() throws WorkFlowException;
