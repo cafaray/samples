@@ -8,6 +8,9 @@ class FlujoTrabajo {
 	def int version
 	def boolean publicada
 	def fechaInicio
+	def fechaTermino
+	def String estatus
+
 	
 	
 	public FlujoTrabajo() {	}
