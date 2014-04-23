@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="wf-notaria-data">
+		<class>com.palestra.wf.model.FlujoTrabajo</class>
+		<class>com.palestra.wf.model.FlujoTrabajoProcesos</class>
+		<class>com.palestra.wf.model.FlujoTrabajoProcesosPK</class>
+		<class>com.palestra.wf.model.Proceso</class>
+		<class>com.palestra.wf.model.ProcesoTransiciones</class>
+		<class>com.palestra.wf.model.ProcesoTransicionesPK</class>
+		<class>com.palestra.wf.model.Transicion</class>
+		<class>com.palestra.wf.model.TransicionActividad</class>
+		<class>com.palestra.wf.model.TransicionDestino</class>
+		<class>com.palestra.wf.model.Actividad</class>
+		<class>com.palestra.wf.model.Comentario</class>
+		<class>com.palestra.wf.model.Parametro</class>
+		<class>com.palestra.wf.model.TransicionDestinoParametro</class>
+		<class>com.palestra.wf.model.TransicionDestinoParametroPK</class>
+		<class>com.palestra.wf.model.ActividadParametro</class>
+		<class>com.palestra.wf.model.ActividadParametroPK</class>
+		<class>com.palestra.wf.model.Tramite</class>
+		<class>com.palestra.wf.model.Tarea</class>
+		<class>com.palestra.wf.model.TareaParametro</class>
+		<class>com.palestra.wf.model.TareaParametroPK</class>
+		<class>com.palestra.wf.model.Usuario</class>
+		<class>com.palestra.wf.model.ActividadUsuario</class>
+		<class>com.palestra.wf.model.ActividadUsuarioPK</class>
+		<class>com.palestra.wf.model.Rol</class>
+		<class>com.palestra.wf.model.ActividadRol</class>
+		<class>com.palestra.wf.model.ActividadRolPK</class>
+	    <properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:mysql://localhost/wfengine" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="cfar21MySql" />
+
+			<!-- EclipseLink should create the database schema automatically -->
+			<!-- 
+			<property name="eclipselink.ddl-generation" value="create-tables" />
+			<property name="eclipselink.ddl-generation.output-mode"
+				value="database" />
+			-->
+		</properties>
+	</persistence-unit>
+</persistence>
