@@ -1,22 +1,26 @@
 package com.palestra.wf.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
 
+import javax.persistence.*;
+
+import com.palestra.wf.model.util.GeneratedValues;
+import com.palestra.wf.model.util.ICommonFields;
+
+import java.util.Date;
 
 /**
  * The persistent class for the kwfm10t database table.
  * 
  */
 @Entity
-@Table(name="kwfm10t")
-@NamedQuery(name="Proceso.findAll", query="SELECT p FROM Proceso p")
-public class Proceso implements Serializable {
+@Table(name = "kwfm10t")
+@NamedQuery(name = "Proceso.findAll", query = "SELECT p FROM Proceso p")
+public class Proceso implements Serializable, ICommonFields {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String identificador;
 
 	private String archivo;
@@ -31,6 +35,7 @@ public class Proceso implements Serializable {
 	private Date tmstmp;
 
 	public Proceso() {
+		tmstmp = new Date();
 	}
 
 	public String getIdentificador() {
@@ -61,9 +66,9 @@ public class Proceso implements Serializable {
 		return this.idsesion;
 	}
 
-	public void setIdsesion(String idsesion) {
-		this.idsesion = idsesion;
-	}
+	// public void setIdsesion(String idsesion) {
+	// this.idsesion = idsesion;
+	// }
 
 	public String getNombre() {
 		return this.nombre;
@@ -77,8 +82,23 @@ public class Proceso implements Serializable {
 		return this.tmstmp;
 	}
 
-	public void setTmstmp(Date tmstmp) {
-		this.tmstmp = tmstmp;
+	// public void setTmstmp(Date tmstmp) {
+	// this.tmstmp = tmstmp;
+	// }
+
+	@Override
+	public void setSesion(String sesion) {
+		idsesion = sesion;
+	}
+
+	@Override
+	public String setIdentificador() {
+		if (identificador == null) {
+			identificador = GeneratedValues.toMD5();
+		} else {
+			// nothing to do ...
+		}
+		return identificador;
 	}
 
 }

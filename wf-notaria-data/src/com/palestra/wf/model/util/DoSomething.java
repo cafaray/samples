@@ -100,4 +100,8 @@ public class DoSomething {
 			System.out.println(" [OK] \n\tat:" + dateFormat.format(new Date()));
 		}
 	}
+	
+	public EntityManager getEntityManager(){
+		return em;
+	}
 }

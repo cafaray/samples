@@ -1,7 +1,12 @@
 package com.palestra.wf.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.palestra.wf.model.util.GeneratedValues;
+import com.palestra.wf.model.util.ICommonFields;
+
 import java.util.Date;
 
 
@@ -12,11 +17,11 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm60t")
 @NamedQuery(name="Parametro.findAll", query="SELECT p FROM Parametro p")
-public class Parametro implements Serializable {
+public class Parametro implements Serializable, ICommonFields {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String identificador;
 
 	private String descripcion;
@@ -31,6 +36,7 @@ public class Parametro implements Serializable {
 	private Date tmstmp;
 
 	public Parametro() {
+		tmstmp = new Date();
 	}
 
 	public String getIdentificador() {
@@ -53,9 +59,9 @@ public class Parametro implements Serializable {
 		return this.idsesion;
 	}
 
-	public void setIdsesion(String idsesion) {
-		this.idsesion = idsesion;
-	}
+//	public void setIdsesion(String idsesion) {
+//		this.idsesion = idsesion;
+//	}
 
 	public String getNombre() {
 		return this.nombre;
@@ -77,8 +83,23 @@ public class Parametro implements Serializable {
 		return this.tmstmp;
 	}
 
-	public void setTmstmp(Date tmstmp) {
-		this.tmstmp = tmstmp;
+	//public void setTmstmp(Date tmstmp) {
+	//	this.tmstmp = tmstmp;
+	//}
+
+	@Override
+	public void setSesion(String sesion) {
+		idsesion = sesion;
+	}
+
+	@Override
+	public String setIdentificador() {
+		if(identificador==null){
+			identificador = GeneratedValues.toMD5();
+		}else{
+			//nothing to do ...
+		}
+		return identificador;
 	}
 
 }

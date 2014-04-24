@@ -1,18 +1,21 @@
 package com.palestra.wf.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.Date;
 
+import javax.persistence.*;
+
+import com.palestra.wf.model.util.ICommonFields;
+
+import java.util.Date;
 
 /**
  * The persistent class for the kwfm62t database table.
  * 
  */
 @Entity
-@Table(name="kwfm62t")
-@NamedQuery(name="TransicionDestinoParametro.findAll", query="SELECT t FROM TransicionDestinoParametro t")
-public class TransicionDestinoParametro implements Serializable {
+@Table(name = "kwfm62t")
+@NamedQuery(name = "TransicionDestinoParametro.findAll", query = "SELECT t FROM TransicionDestinoParametro t")
+public class TransicionDestinoParametro implements Serializable, ICommonFields {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -23,17 +26,18 @@ public class TransicionDestinoParametro implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date tmstmp;
 
-	//uni-directional many-to-one association to Parametro
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idparametro")
+	// uni-directional many-to-one association to Parametro
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idparametro")
 	private Parametro Parametro;
 
-	//uni-directional many-to-one association to TransicionDestino
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idtransdest")
+	// uni-directional many-to-one association to TransicionDestino
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idtransdest")
 	private TransicionDestino TransicionDestino;
 
 	public TransicionDestinoParametro() {
+		tmstmp = new Date();
 	}
 
 	public TransicionDestinoParametroPK getId() {
@@ -48,17 +52,17 @@ public class TransicionDestinoParametro implements Serializable {
 		return this.idsesion;
 	}
 
-	public void setIdsesion(String idsesion) {
-		this.idsesion = idsesion;
-	}
+	// public void setIdsesion(String idsesion) {
+	// this.idsesion = idsesion;
+	// }
 
 	public Date getTmstmp() {
 		return this.tmstmp;
 	}
 
-	public void setTmstmp(Date tmstmp) {
-		this.tmstmp = tmstmp;
-	}
+	// public void setTmstmp(Date tmstmp) {
+	// this.tmstmp = tmstmp;
+	// }
 
 	public Parametro getParametro() {
 		return this.Parametro;
@@ -74,6 +78,17 @@ public class TransicionDestinoParametro implements Serializable {
 
 	public void setTransicionDestino(TransicionDestino TransicionDestino) {
 		this.TransicionDestino = TransicionDestino;
+	}
+
+	@Override
+	public void setSesion(String sesion) {
+		idsesion = sesion;
+	}
+
+	@Override
+	public String setIdentificador() {
+		//nothing to do
+		return "";
 	}
 
 }

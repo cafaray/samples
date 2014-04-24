@@ -1,7 +1,11 @@
 package com.palestra.wf.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.palestra.wf.model.util.ICommonFields;
+
 import java.util.Date;
 
 
@@ -12,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm01t")
 @NamedQuery(name="FlujoTrabajoProcesos.findAll", query="SELECT f FROM FlujoTrabajoProcesos f")
-public class FlujoTrabajoProcesos implements Serializable {
+public class FlujoTrabajoProcesos implements Serializable, ICommonFields {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -34,6 +38,7 @@ public class FlujoTrabajoProcesos implements Serializable {
 	private Proceso Proceso;
 
 	public FlujoTrabajoProcesos() {
+		tmstmp = new Date();
 	}
 
 	public FlujoTrabajoProcesosPK getId() {
@@ -48,17 +53,17 @@ public class FlujoTrabajoProcesos implements Serializable {
 		return this.idsesion;
 	}
 
-	public void setIdsesion(String idsesion) {
-		this.idsesion = idsesion;
-	}
+//	public void setIdsesion(String idsesion) {
+//		this.idsesion = idsesion;
+//	}
 
 	public Date getTmstmp() {
 		return this.tmstmp;
 	}
 
-	public void setTmstmp(Date tmstmp) {
-		this.tmstmp = tmstmp;
-	}
+//	public void setTmstmp(Date tmstmp) {
+//		this.tmstmp = tmstmp;
+//	}
 
 	public FlujoTrabajo getFlujoTrabajo() {
 		return this.FlujoTrabajo;
@@ -74,6 +79,17 @@ public class FlujoTrabajoProcesos implements Serializable {
 
 	public void setProceso(Proceso Proceso) {
 		this.Proceso = Proceso;
+	}
+
+	@Override
+	public void setSesion(String sesion) {
+		idsesion = sesion;
+	}
+
+	@Override
+	public String setIdentificador() {
+		// nothing todo
+		return "";
 	}
 
 }

@@ -1,7 +1,12 @@
 package com.palestra.wf.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.palestra.wf.model.util.GeneratedValues;
+import com.palestra.wf.model.util.ICommonFields;
+
 import java.util.Date;
 
 
@@ -12,11 +17,11 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm00t")
 @NamedQuery(name="FlujoTrabajo.findAll", query="SELECT f FROM FlujoTrabajo f")
-public class FlujoTrabajo implements Serializable {
+public class FlujoTrabajo implements Serializable, ICommonFields {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String identificador;
 
 	private String estatus;
@@ -39,6 +44,7 @@ public class FlujoTrabajo implements Serializable {
 	private int version;
 
 	public FlujoTrabajo() {
+		tmstmp = new Date();
 	}
 
 	public String getIdentificador() {
@@ -77,9 +83,9 @@ public class FlujoTrabajo implements Serializable {
 		return this.idsesion;
 	}
 
-	public void setIdsesion(String idsesion) {
-		this.idsesion = idsesion;
-	}
+//	public void setIdsesion(String idsesion) {
+//		this.idsesion = idsesion;
+//	}
 
 	public String getNombre() {
 		return this.nombre;
@@ -101,9 +107,9 @@ public class FlujoTrabajo implements Serializable {
 		return this.tmstmp;
 	}
 
-	public void setTmstmp(Date tmstmp) {
-		this.tmstmp = tmstmp;
-	}
+//	public void setTmstmp(Date tmstmp) {
+//		this.tmstmp = tmstmp;
+//	}
 
 	public int getVersion() {
 		return this.version;
@@ -111,6 +117,21 @@ public class FlujoTrabajo implements Serializable {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	@Override
+	public void setSesion(String sesion) {
+		idsesion = sesion;
+	}
+
+	@Override
+	public String setIdentificador() {
+		if(identificador==null){
+			identificador = GeneratedValues.toMD5();
+		}else{
+			//nothing to do ...
+		}
+		return identificador;
 	}
 
 }

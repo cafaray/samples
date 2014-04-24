@@ -1,7 +1,11 @@
 package com.palestra.wf.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.palestra.wf.model.util.ICommonFields;
+
 import java.util.Date;
 
 
@@ -12,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm76t")
 @NamedQuery(name="TareaParametro.findAll", query="SELECT t FROM TareaParametro t")
-public class TareaParametro implements Serializable {
+public class TareaParametro implements Serializable, ICommonFields {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
@@ -36,6 +40,7 @@ public class TareaParametro implements Serializable {
 	private Tarea TareaActividad;
 
 	public TareaParametro() {
+		tmstmp = new Date();
 	}
 
 	public TareaParametroPK getId() {
@@ -50,17 +55,17 @@ public class TareaParametro implements Serializable {
 		return this.idsesion;
 	}
 
-	public void setIdsesion(String idsesion) {
-		this.idsesion = idsesion;
-	}
+//	public void setIdsesion(String idsesion) {
+//		this.idsesion = idsesion;
+//	}
 
 	public Date getTmstmp() {
 		return this.tmstmp;
 	}
 
-	public void setTmstmp(Date tmstmp) {
-		this.tmstmp = tmstmp;
-	}
+//	public void setTmstmp(Date tmstmp) {
+//		this.tmstmp = tmstmp;
+//	}
 
 	public String getValparametro() {
 		return this.valparametro;
@@ -84,6 +89,17 @@ public class TareaParametro implements Serializable {
 
 	public void setTareaActividad(Tarea TareaActividad) {
 		this.TareaActividad = TareaActividad;
+	}
+
+	@Override
+	public void setSesion(String sesion) {
+		idsesion = sesion;
+	}
+
+	@Override
+	public String setIdentificador() {
+		//NOTHING TO DO
+		return "";
 	}
 
 }

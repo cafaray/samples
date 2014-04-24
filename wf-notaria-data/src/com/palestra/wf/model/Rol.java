@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.palestra.wf.model.util.GeneratedValues;
+import com.palestra.wf.model.util.ICommonFields;
 
 import java.util.Date;
 

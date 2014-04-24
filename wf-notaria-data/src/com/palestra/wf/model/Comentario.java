@@ -1,7 +1,12 @@
 package com.palestra.wf.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+
+import com.palestra.wf.model.util.GeneratedValues;
+import com.palestra.wf.model.util.ICommonFields;
+
 import java.util.Date;
 
 
@@ -12,11 +17,11 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm50t")
 @NamedQuery(name="Comentario.findAll", query="SELECT c FROM Comentario c")
-public class Comentario implements Serializable {
+public class Comentario implements Serializable, ICommonFields {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String identificador;
 
 	private String comentario;
@@ -37,6 +42,7 @@ public class Comentario implements Serializable {
 	private Tarea Tarea;
 
 	public Comentario() {
+		tmstmp = new Date();
 	}
 
 	public String getIdentificador() {
@@ -67,9 +73,9 @@ public class Comentario implements Serializable {
 		return this.idsesion;
 	}
 
-	public void setIdsesion(String idsesion) {
-		this.idsesion = idsesion;
-	}
+//	public void setIdsesion(String idsesion) {
+//		this.idsesion = idsesion;
+//	}
 
 	public String getIdusuario() {
 		return this.idusuario;
@@ -83,9 +89,9 @@ public class Comentario implements Serializable {
 		return this.tmstmp;
 	}
 
-	public void setTmstmp(Date tmstmp) {
-		this.tmstmp = tmstmp;
-	}
+//	public void setTmstmp(Date tmstmp) {
+//		this.tmstmp = tmstmp;
+//	}
 
 	public Tarea getTarea() {
 		return this.Tarea;
@@ -93,6 +99,21 @@ public class Comentario implements Serializable {
 
 	public void setTarea(Tarea Tarea) {
 		this.Tarea = Tarea;
+	}
+
+	@Override
+	public void setSesion(String sesion) {
+		idsesion = sesion;
+	}
+
+	@Override
+	public String setIdentificador() {
+		if(identificador==null){
+			identificador = GeneratedValues.toMD5();
+		}else{
+			//nothing to do ...
+		}
+		return identificador;
 	}
 
 }
