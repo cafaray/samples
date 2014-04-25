@@ -20,6 +20,12 @@ public class ActividadRolPK implements Serializable {
 
 	public ActividadRolPK() {
 	}
+	
+	public ActividadRolPK(String idActividad, String idRol) {
+		this.idactividad = idActividad;
+		this.idrol = idRol;
+	}
+	
 	public String getIdactividad() {
 		return this.idactividad;
 	}

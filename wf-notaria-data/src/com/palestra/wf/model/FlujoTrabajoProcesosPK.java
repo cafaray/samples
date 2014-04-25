@@ -20,6 +20,12 @@ public class FlujoTrabajoProcesosPK implements Serializable {
 
 	public FlujoTrabajoProcesosPK() {
 	}
+	
+	public FlujoTrabajoProcesosPK(String idFlujo, String idProceso) {
+		this.idflujo = idFlujo;
+		this.idproceso = idProceso;
+	}
+	
 	public String getIdflujo() {
 		return this.idflujo;
 	}

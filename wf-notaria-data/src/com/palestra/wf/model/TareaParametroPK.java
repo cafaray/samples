@@ -20,6 +20,12 @@ public class TareaParametroPK implements Serializable {
 
 	public TareaParametroPK() {
 	}
+	
+	public TareaParametroPK(String idTarea, String idParametro){
+		this.idtarea = idTarea;
+		this.idparametro = idParametro;
+	}
+	
 	public String getIdtarea() {
 		return this.idtarea;
 	}

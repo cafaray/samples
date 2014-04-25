@@ -20,6 +20,10 @@ public class ActividadParametroPK implements Serializable {
 
 	public ActividadParametroPK() {
 	}
+	public ActividadParametroPK(String idActividad, String idParametro) {
+		this.idactividad = idActividad;
+		this.idparametro = idParametro;
+	}
 	public String getIdactividad() {
 		return this.idactividad;
 	}

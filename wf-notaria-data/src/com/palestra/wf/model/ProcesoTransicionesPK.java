@@ -20,6 +20,12 @@ public class ProcesoTransicionesPK implements Serializable {
 
 	public ProcesoTransicionesPK() {
 	}
+	
+	public ProcesoTransicionesPK(String idProceso, String idTransicion){
+		this.idproceso = idProceso;
+		this.idtransicion = idTransicion;
+	}
+	
 	public String getIdproceso() {
 		return this.idproceso;
 	}

@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
 import com.palestra.wf.model.util.ICommonFields;
 
 import java.util.Date;
@@ -20,9 +19,8 @@ import java.util.Date;
 public class FlujoTrabajo implements Serializable, ICommonFields {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	//@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String identificador;
+	@EmbeddedId
+	private FlujoTrabajoPK id;
 
 	private String estatus;
 
@@ -41,18 +39,16 @@ public class FlujoTrabajo implements Serializable, ICommonFields {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date tmstmp;
 
-	private int version;
-
 	public FlujoTrabajo() {
 		tmstmp = new Date();
 	}
 
-	public String getIdentificador() {
-		return this.identificador;
+	public FlujoTrabajoPK getId() {
+		return this.id;
 	}
 
-	public void setIdentificador(String identificador) {
-		this.identificador = identificador;
+	public void setId(FlujoTrabajoPK id) {
+		this.id = id;
 	}
 
 	public String getEstatus() {
@@ -111,14 +107,6 @@ public class FlujoTrabajo implements Serializable, ICommonFields {
 //		this.tmstmp = tmstmp;
 //	}
 
-	public int getVersion() {
-		return this.version;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
-	}
-
 	@Override
 	public void setSesion(String sesion) {
 		idsesion = sesion;
@@ -126,12 +114,8 @@ public class FlujoTrabajo implements Serializable, ICommonFields {
 
 	@Override
 	public String setIdentificador() {
-		if(identificador==null){
-			identificador = GeneratedValues.toMD5();
-		}else{
-			//nothing to do ...
-		}
-		return identificador;
+		//Does not apply
+		return "";
 	}
 
 }

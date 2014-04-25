@@ -27,6 +27,7 @@
 		<class>com.palestra.wf.model.Rol</class>
 		<class>com.palestra.wf.model.ActividadRol</class>
 		<class>com.palestra.wf.model.ActividadRolPK</class>
+		<class>com.palestra.wf.model.FlujoTrabajoPK</class>
 	    <properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"

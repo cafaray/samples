@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm00t (
   estatus VARCHAR(2) NOT NULL,
   tmstmp DATETIME NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
-  PRIMARY KEY (identificador)
+  PRIMARY KEY (identificador, version)
 )ENGINE = InnoDB;
 
 CREATE UNIQUE INDEX IDXVERSION ON wfengine.kwfm00t (version ASC);
@@ -53,13 +53,14 @@ CREATE UNIQUE INDEX NOMBRE_UNIQUE ON wfengine.kwfm10t (nombre ASC);
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm01t (
   idflujo VARCHAR(32) NOT NULL,
+  version INT NOT NULL,
   idproceso VARCHAR(32) NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
   tmstmp DATETIME NOT NULL,
-  PRIMARY KEY (idflujo, idproceso),
+  PRIMARY KEY (idflujo, version, idproceso),
   CONSTRAINT FLUJOTRABAJO
-    FOREIGN KEY (idflujo)
-    REFERENCES wfengine.kwfm00t (identificador)
+    FOREIGN KEY (idflujo, version)
+    REFERENCES wfengine.kwfm00t (identificador, version)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT PROCESO

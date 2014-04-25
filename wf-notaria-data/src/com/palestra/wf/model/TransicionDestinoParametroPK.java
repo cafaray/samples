@@ -20,6 +20,12 @@ public class TransicionDestinoParametroPK implements Serializable {
 
 	public TransicionDestinoParametroPK() {
 	}
+	
+	public TransicionDestinoParametroPK(String idTranDest, String idParametro) {
+		this.idtransdest = idTranDest;
+		this.idparametro = idParametro;
+	}
+	
 	public String getIdtransdest() {
 		return this.idtransdest;
 	}

@@ -20,6 +20,12 @@ public class ActividadUsuarioPK implements Serializable {
 
 	public ActividadUsuarioPK() {
 	}
+	
+	public ActividadUsuarioPK(String idActividad, String idUsuario) {
+		this.idactividad = idActividad;
+		this.idusuario = idUsuario;
+	}
+	
 	public String getIdactividad() {
 		return this.idactividad;
 	}
