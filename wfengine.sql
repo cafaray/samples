@@ -346,7 +346,7 @@ CREATE INDEX FLUJOTRABAJO_idx ON wfengine.kwfm70t (idflujo ASC);
 CREATE TABLE IF NOT EXISTS wfengine.kwfm73t (
   identificador VARCHAR(32) NOT NULL,
   idtramite VARCHAR(32) NOT NULL,
-  idactividad VARCHAR(3) NOT NULL,
+  idactividad VARCHAR(32) NOT NULL,
   idusuario VARCHAR(32) NOT  NULL,
   estatus VARCHAR(2) NOT NULL,
   tmstmp DATETIME NOT NULL,

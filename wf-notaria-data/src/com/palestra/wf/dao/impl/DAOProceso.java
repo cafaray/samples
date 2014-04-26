@@ -5,6 +5,7 @@ import java.util.List;
 import com.palestra.wf.dao.IProceso;
 import com.palestra.wf.exception.WorkFlowException;
 import com.palestra.wf.model.Proceso;
+import com.palestra.wf.model.ProcesoTransiciones;
 import com.palestra.wf.model.Transicion;
 import com.palestra.wf.model.util.DoSomething;
 
@@ -42,28 +43,35 @@ public class DAOProceso implements IProceso {
 	@Override
 	public Proceso agregarTransicion(Proceso proceso, Transicion transicion)
 			throws WorkFlowException {
-		// TODO Auto-generated method stub
-		return null;
+		ProcesoTransiciones pt = new ProcesoTransiciones();
+		pt.setProceso(proceso);
+		pt.setTransicion(transicion);
+		ds.insert(pt);
+		return proceso;
 	}
 
 	@Override
 	public Proceso quitarTransicion(Proceso proceso, Transicion transicion)
 			throws WorkFlowException {
-		// TODO Auto-generated method stub
-		return null;
+		ProcesoTransiciones pt = new ProcesoTransiciones();
+		pt.setProceso(proceso);
+		pt.setTransicion(transicion);
+		ds.remove(pt);
+		return proceso;
 	}
 
 	@Override
 	public Proceso asignarTransiciones(Proceso proceso,
 			List<Transicion> transiciones) throws WorkFlowException {
-		// TODO Auto-generated method stub
-		return null;
+		for(Transicion transicion:transiciones){
+			agregarTransicion(proceso, transicion);
+		}
+		return proceso;
 	}
 
 	@Override
 	public Proceso desdeArchivo(String archivo) throws WorkFlowException {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 }

@@ -70,6 +70,7 @@ public class ProcesoTransiciones implements Serializable, ICommonFields {
 
 	public void setProceso(Proceso Proceso) {
 		this.Proceso = Proceso;
+		this.id.setIdproceso(Proceso.getIdentificador()); 
 	}
 
 	public Transicion getTransicion() {
@@ -78,6 +79,7 @@ public class ProcesoTransiciones implements Serializable, ICommonFields {
 
 	public void setTransicion(Transicion Transicion) {
 		this.Transicion = Transicion;
+		this.id.setIdtransicion(Transicion.getIdentificador());
 	}
 
 	@Override
