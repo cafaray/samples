@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
 
@@ -16,61 +16,60 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm63t")
 @NamedQuery(name="ActividadParametro.findAll", query="SELECT a FROM ActividadParametro a")
-public class ActividadParametro implements Serializable, ICommonFields {
+public class ActividadParametro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private ActividadParametroPK id;
+	@Id
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private String identificador;
 
 	private String idsesion;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date tmstmp;
 
-	//uni-directional many-to-one association to Parametro
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idparametro")
-	private Parametro Parametro;
-
 	//uni-directional many-to-one association to Actividad
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idactividad")
 	private Actividad Actividad;
 
+	//uni-directional many-to-one association to Parametro
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idparametro")
+	private Parametro Parametro;
+
 	public ActividadParametro() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
-	public ActividadParametroPK getId() {
-		return this.id;
+	public String getIdentificador() {
+		return this.identificador;
 	}
 
-	public void setId(ActividadParametroPK id) {
-		this.id = id;
+	public void setIdentificador(String identificador) {
+		this.identificador = identificador;
+	}
+	
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
 	}
 
 	public String getIdsesion() {
 		return this.idsesion;
 	}
 
-//	public void setIdsesion(String idsesion) {
-//		this.idsesion = idsesion;
-//	}
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
+	}
 
 	public Date getTmstmp() {
 		return this.tmstmp;
 	}
 
-//	public void setTmstmp(Date tmstmp) {
-//		this.tmstmp = tmstmp;
-//	}
-
-	public Parametro getParametro() {
-		return this.Parametro;
-	}
-
-	public void setParametro(Parametro Parametro) {
-		this.Parametro = Parametro;
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
 	}
 
 	public Actividad getActividad() {
@@ -81,15 +80,12 @@ public class ActividadParametro implements Serializable, ICommonFields {
 		this.Actividad = Actividad;
 	}
 
-	@Override
-	public void setSesion(String sesion) {
-		idsesion = sesion;
+	public Parametro getParametro() {
+		return this.Parametro;
 	}
 
-	@Override
-	public String setIdentificador() {
-		// nothing todo
-		return "";
+	public void setParametro(Parametro Parametro) {
+		this.Parametro = Parametro;
 	}
 
 }

@@ -17,12 +17,11 @@ public class Testing {
 		actividad.setTiempostd(1);
 		actividad.setTiempolmt(3);
 		actividad.setTipoAccion(TipoAccion.ACTIVIDAD.getCodigo());
-		actividad.setSesion("");
 		actividad.setIdentificador();
 		DoSomething test = new DoSomething();
 		test.insert(actividad);
 
-		Actividad a1 = test.findById(Actividad.class, "00da5f28f39e3274d4364a3f91d20efb");
+		Actividad a1 = test.findById(Actividad.class, "343c1716b0c7c8fd5728c942348fea2f");
 		a1.setNombre("Hallazgo modificado");
 		test.update(a1);
 
@@ -38,9 +37,8 @@ public class Testing {
 		Rol rol = new Rol();
 		rol.setIdentificador();
 		rol.setDescripcion("Administrador");
-		rol.setIdrol("elID");
+		rol.setIdborol("elID");
 		rol.setPrefijo("ADM");
-		rol.setSesion("mi sesion");
 		test.insert(rol);
 	}
 

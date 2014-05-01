@@ -4,24 +4,23 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
+
 
 /**
  * The persistent class for the kwfm30t database table.
  * 
  */
 @Entity
-@Table(name = "kwfm30t")
-@NamedQuery(name = "Actividad.findAll", query = "SELECT a FROM Actividad a")
-// @SequenceGenerator(name="secuencia", initialValue=101, allocationSize=)
-public class Actividad implements Serializable, ICommonFields {
+@Table(name="kwfm30t")
+@NamedQuery(name="Actividad.findAll", query="SELECT a FROM Actividad a")
+public class Actividad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	// @GeneratedValue(strategy=GenerationType.SEQUENCE)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String identificador;
 
 	private String descripcion;
@@ -41,6 +40,7 @@ public class Actividad implements Serializable, ICommonFields {
 
 	public Actividad() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
 	public String getIdentificador() {
@@ -51,6 +51,11 @@ public class Actividad implements Serializable, ICommonFields {
 		this.identificador = identificador;
 	}
 
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public String getDescripcion() {
 		return this.descripcion;
 	}
@@ -103,22 +108,8 @@ public class Actividad implements Serializable, ICommonFields {
 		return this.tmstmp;
 	}
 
-	//private void setTmstmp(Date tmstmp) {
-	//	this.tmstmp = tmstmp;
-	//}
-
-	@Override
-	public void setSesion(String sesion) {
-		setIdsesion(sesion);
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
 	}
 
-	@Override
-	public String setIdentificador() {
-		if(identificador==null){
-			identificador = GeneratedValues.toMD5();
-		}else{
-			//nothing to do ...
-		}
-		return identificador;
-	}
 }

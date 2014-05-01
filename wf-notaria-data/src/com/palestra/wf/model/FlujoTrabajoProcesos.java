@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
 
@@ -16,20 +16,28 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm01t")
 @NamedQuery(name="FlujoTrabajoProcesos.findAll", query="SELECT f FROM FlujoTrabajoProcesos f")
-public class FlujoTrabajoProcesos implements Serializable, ICommonFields {
+public class FlujoTrabajoProcesos implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private FlujoTrabajoProcesosPK id;
+	@Id
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private String identificador;
 
 	private String idsesion;
+
+	private int posicion;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date tmstmp;
 
+	private int version;
+
 	//uni-directional many-to-one association to FlujoTrabajo
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="idflujo")
+	@JoinColumns({
+		@JoinColumn(name="idflujo", referencedColumnName="identificador"),
+		@JoinColumn(name="idflujo", referencedColumnName="version")
+	})
 	private FlujoTrabajo FlujoTrabajo;
 
 	//uni-directional many-to-one association to Proceso
@@ -39,31 +47,53 @@ public class FlujoTrabajoProcesos implements Serializable, ICommonFields {
 
 	public FlujoTrabajoProcesos() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
-	public FlujoTrabajoProcesosPK getId() {
-		return this.id;
+	public String getIdentificador() {
+		return this.identificador;
 	}
 
-	public void setId(FlujoTrabajoProcesosPK id) {
-		this.id = id;
+	public void setIdentificador(String identificador) {
+		this.identificador = identificador;
 	}
 
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public String getIdsesion() {
 		return this.idsesion;
 	}
 
-//	public void setIdsesion(String idsesion) {
-//		this.idsesion = idsesion;
-//	}
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
+	}
+
+	public int getPosicion() {
+		return this.posicion;
+	}
+
+	public void setPosicion(int posicion) {
+		this.posicion = posicion;
+	}
 
 	public Date getTmstmp() {
 		return this.tmstmp;
 	}
 
-//	public void setTmstmp(Date tmstmp) {
-//		this.tmstmp = tmstmp;
-//	}
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
+	}
+
+	public int getVersion() {
+		return this.version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
 	public FlujoTrabajo getFlujoTrabajo() {
 		return this.FlujoTrabajo;
@@ -79,17 +109,6 @@ public class FlujoTrabajoProcesos implements Serializable, ICommonFields {
 
 	public void setProceso(Proceso Proceso) {
 		this.Proceso = Proceso;
-	}
-
-	@Override
-	public void setSesion(String sesion) {
-		idsesion = sesion;
-	}
-
-	@Override
-	public String setIdentificador() {
-		// nothing todo
-		return "";
 	}
 
 }

@@ -12,8 +12,8 @@ public interface ITramite {
 	boolean cancelarTramite(Tramite tramite, String razon) throws WorkFlowException;
 	List<Tramite> listar() throws WorkFlowException;
 	List<Tramite> listar(String estatus) throws WorkFlowException;
-	List<Tarea> listarTareas() throws WorkFlowException;
-	List<Tarea> listarTareas(String estatus) throws WorkFlowException;
+	List<Tarea> listarTareas(String tramite) throws WorkFlowException;
+	List<Tarea> listarTareas(String tramite, String estatus) throws WorkFlowException;
 	Tarea tareaSiguiente(Tramite tramite) throws WorkFlowException;
 	List<Tarea> tareasSiguientes(Tramite tramite) throws WorkFlowException;
 }

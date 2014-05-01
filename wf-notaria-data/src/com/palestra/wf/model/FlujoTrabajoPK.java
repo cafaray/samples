@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 /**
  * The primary key class for the kwfm00t database table.
@@ -19,12 +19,9 @@ public class FlujoTrabajoPK implements Serializable {
 
 	private int version;
 
-	public FlujoTrabajoPK() {
-		this.identificador = GeneratedValues.toMD5();
-		this.version = 0;
-	}
+	public FlujoTrabajoPK() {}
 	
-	public FlujoTrabajoPK(String identificador, int version){
+	public FlujoTrabajoPK(String identificador, int version) {
 		this.identificador = identificador;
 		this.version = version;
 	}
@@ -35,6 +32,12 @@ public class FlujoTrabajoPK implements Serializable {
 	public void setIdentificador(String identificador) {
 		this.identificador = identificador;
 	}
+	
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public int getVersion() {
 		return this.version;
 	}

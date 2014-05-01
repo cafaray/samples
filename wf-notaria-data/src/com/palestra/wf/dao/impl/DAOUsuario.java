@@ -58,7 +58,7 @@ public class DAOUsuario implements IUsuario {
 
 	@Override
 	public Usuario asignaRol(Usuario usuario, Rol rol) throws WorkFlowException {
-		usuario.setIdrol(rol.getIdentificador());
+		usuario.setRol(rol);
 		ds.update(usuario);
 		return usuario;
 	}

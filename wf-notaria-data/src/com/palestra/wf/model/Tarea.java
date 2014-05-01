@@ -4,23 +4,23 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
+
 
 /**
  * The persistent class for the kwfm73t database table.
  * 
  */
 @Entity
-@Table(name = "kwfm73t")
-@NamedQuery(name = "Tarea.findAll", query = "SELECT t FROM Tarea t")
-public class Tarea implements Serializable, ICommonFields {
+@Table(name="kwfm73t")
+@NamedQuery(name="Tarea.findAll", query="SELECT t FROM Tarea t")
+public class Tarea implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String identificador;
 
 	private String estatus;
@@ -32,18 +32,19 @@ public class Tarea implements Serializable, ICommonFields {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date tmstmp;
 
-	// uni-directional many-to-one association to Actividad
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idactividad")
+	//uni-directional many-to-one association to Actividad
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idactividad")
 	private Actividad Actividad;
 
-	// uni-directional many-to-one association to Tramite
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idtramite")
+	//uni-directional many-to-one association to Tramite
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idtramite")
 	private Tramite Tramite;
 
 	public Tarea() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
 	public String getIdentificador() {
@@ -54,6 +55,11 @@ public class Tarea implements Serializable, ICommonFields {
 		this.identificador = identificador;
 	}
 
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public String getEstatus() {
 		return this.estatus;
 	}
@@ -66,9 +72,9 @@ public class Tarea implements Serializable, ICommonFields {
 		return this.idsesion;
 	}
 
-	// public void setIdsesion(String idsesion) {
-	// this.idsesion = idsesion;
-	// }
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
+	}
 
 	public String getIdusuario() {
 		return this.idusuario;
@@ -82,9 +88,9 @@ public class Tarea implements Serializable, ICommonFields {
 		return this.tmstmp;
 	}
 
-	// public void setTmstmp(Date tmstmp) {
-	// this.tmstmp = tmstmp;
-	// }
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
+	}
 
 	public Actividad getActividad() {
 		return this.Actividad;
@@ -100,21 +106,6 @@ public class Tarea implements Serializable, ICommonFields {
 
 	public void setTramite(Tramite Tramite) {
 		this.Tramite = Tramite;
-	}
-
-	@Override
-	public void setSesion(String sesion) {
-		idsesion = sesion;
-	}
-
-	@Override
-	public String setIdentificador() {
-		if (identificador == null) {
-			identificador = GeneratedValues.toMD5();
-		} else {
-			// nothing to do ...
-		}
-		return identificador;
 	}
 
 }

@@ -2,7 +2,7 @@ package com.palestra.wf.dao.impl;
 
 import java.util.List;
 
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.palestra.wf.dao.IRol;
 import com.palestra.wf.exception.WorkFlowException;
@@ -51,17 +51,16 @@ public class DAORol implements IRol {
 
 	@Override
 	public Rol quitarUsuario(Rol rol, Usuario usuario) throws WorkFlowException {
-		usuario.setIdrol("");
+		usuario.setRol(rol);
 		ds.update(usuario);
 		return rol;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Usuario> listarUsuarios(Rol rol) throws WorkFlowException {
 		@SuppressWarnings("unused")
 		String idrol = rol.getIdentificador();
-		Query query = ds.getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.idrol = :idrol");
+		TypedQuery<Usuario> query = ds.getEntityManager().createQuery("SELECT u FROM Usuario u WHERE u.idrol = :idrol",Usuario.class);
 		List<Usuario> vuelta = query.getResultList();
 		return vuelta;
 	}

@@ -32,6 +32,6 @@ public interface IActividad {
 	 * @return Transicion generada
 	 * @throws WorkFlowException
 	 */
-	Transicion asignarDestino(Actividad destino, List<Parametro> parametros) throws WorkFlowException;	
+	Transicion asignarDestino(Actividad destino) throws WorkFlowException;	
 	
 }

@@ -2,7 +2,7 @@ package com.palestra.wf.dao.impl;
 
 import java.util.List;
 
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.palestra.wf.dao.IComentario;
 import com.palestra.wf.exception.WorkFlowException;
@@ -39,11 +39,10 @@ public class DAOComentario implements IComentario {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Comentario> listar(Tramite tramite) throws WorkFlowException {
 		String sql = "SELECT c FROM Comentario c WHERE c.idtarea IN (SELECT t.idtarea FROM Tarea WHERE idtramite = :tramite) OREDER BY c.tmstmp";
-		Query query = ds.getEntityManager().createQuery(sql, Comentario.class);
+		TypedQuery<Comentario> query = ds.getEntityManager().createQuery(sql, Comentario.class);
 		query.setParameter("tramite", tramite.getIdentificador());
 		return query.getResultList();
 	}

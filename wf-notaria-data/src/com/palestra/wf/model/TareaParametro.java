@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
 
@@ -16,11 +16,12 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm76t")
 @NamedQuery(name="TareaParametro.findAll", query="SELECT t FROM TareaParametro t")
-public class TareaParametro implements Serializable, ICommonFields {
+public class TareaParametro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private TareaParametroPK id;
+	@Id
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private String identificador;
 
 	private String idsesion;
 
@@ -41,31 +42,37 @@ public class TareaParametro implements Serializable, ICommonFields {
 
 	public TareaParametro() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
-	public TareaParametroPK getId() {
-		return this.id;
+	public String getIdentificador() {
+		return this.identificador;
 	}
 
-	public void setId(TareaParametroPK id) {
-		this.id = id;
+	public void setIdentificador(String identificador) {
+		this.identificador = identificador;
 	}
 
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public String getIdsesion() {
 		return this.idsesion;
 	}
 
-//	public void setIdsesion(String idsesion) {
-//		this.idsesion = idsesion;
-//	}
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
+	}
 
 	public Date getTmstmp() {
 		return this.tmstmp;
 	}
 
-//	public void setTmstmp(Date tmstmp) {
-//		this.tmstmp = tmstmp;
-//	}
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
+	}
 
 	public String getValparametro() {
 		return this.valparametro;
@@ -89,17 +96,6 @@ public class TareaParametro implements Serializable, ICommonFields {
 
 	public void setTareaActividad(Tarea TareaActividad) {
 		this.TareaActividad = TareaActividad;
-	}
-
-	@Override
-	public void setSesion(String sesion) {
-		idsesion = sesion;
-	}
-
-	@Override
-	public String setIdentificador() {
-		//NOTHING TO DO
-		return "";
 	}
 
 }

@@ -1,47 +1,51 @@
 package com.palestra.wf.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
+
 
 /**
  * The persistent class for the kwfm70t database table.
  * 
  */
 @Entity
-@Table(name = "kwfm70t")
-@NamedQuery(name = "Tramite.findAll", query = "SELECT t FROM Tramite t")
-public class Tramite implements Serializable, ICommonFields {
+@Table(name="kwfm70t")
+@NamedQuery(name="Tramite.findAll", query="SELECT t FROM Tramite t")
+public class Tramite implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	// @GeneratedValue(strategy=GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String identificador;
 
 	private String estatus;
 
-	private String idsesion;
+	private String idbotramite;
 
-	private String idtramite;
+	private String idsesion;
 
 	private String idusuario;
 
-	private String tmstmp;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date tmstmp;
 
-	// uni-directional many-to-one association to FlujoTrabajo
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idflujo")
+	private int version;
+
+	//uni-directional many-to-one association to FlujoTrabajo
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumns({
+		@JoinColumn(name="idflujo", referencedColumnName="identificador"),
+		@JoinColumn(name="idflujo", referencedColumnName="version")
+	})
 	private FlujoTrabajo FlujoTrabajo;
 
 	public Tramite() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"dd/MM/yyyy HH:mm:ss");
-		tmstmp = dateFormat.format(new Date());
+		tmstmp = new Date();
+		idsesion = "";
 	}
 
 	public String getIdentificador() {
@@ -52,6 +56,11 @@ public class Tramite implements Serializable, ICommonFields {
 		this.identificador = identificador;
 	}
 
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public String getEstatus() {
 		return this.estatus;
 	}
@@ -60,20 +69,20 @@ public class Tramite implements Serializable, ICommonFields {
 		this.estatus = estatus;
 	}
 
+	public String getIdbotramite() {
+		return this.idbotramite;
+	}
+
+	public void setIdbotramite(String idbotramite) {
+		this.idbotramite = idbotramite;
+	}
+
 	public String getIdsesion() {
 		return this.idsesion;
 	}
 
-	// public void setIdsesion(String idsesion) {
-	// this.idsesion = idsesion;
-	// }
-
-	public String getIdtramite() {
-		return this.idtramite;
-	}
-
-	public void setIdtramite(String idtramite) {
-		this.idtramite = idtramite;
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
 	}
 
 	public String getIdusuario() {
@@ -84,13 +93,21 @@ public class Tramite implements Serializable, ICommonFields {
 		this.idusuario = idusuario;
 	}
 
-	public String getTmstmp() {
+	public Date getTmstmp() {
 		return this.tmstmp;
 	}
 
-	// public void setTmstmp(String tmstmp) {
-	// this.tmstmp = tmstmp;
-	// }
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
+	}
+
+	public int getVersion() {
+		return this.version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
 	public FlujoTrabajo getFlujoTrabajo() {
 		return this.FlujoTrabajo;
@@ -98,21 +115,6 @@ public class Tramite implements Serializable, ICommonFields {
 
 	public void setFlujoTrabajo(FlujoTrabajo FlujoTrabajo) {
 		this.FlujoTrabajo = FlujoTrabajo;
-	}
-
-	@Override
-	public void setSesion(String sesion) {
-		idsesion = sesion;
-	}
-
-	@Override
-	public String setIdentificador() {
-		if (identificador == null) {
-			identificador = GeneratedValues.toMD5();
-		} else {
-			// nothing to do ...
-		}
-		return identificador;
 	}
 
 }

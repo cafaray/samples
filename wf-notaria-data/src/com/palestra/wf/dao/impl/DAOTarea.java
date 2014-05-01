@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.palestra.wf.dao.ITarea;
 import com.palestra.wf.exception.WorkFlowException;
@@ -47,11 +48,10 @@ public class DAOTarea implements ITarea {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Tarea> lista(Tramite tramite) throws WorkFlowException {
 		String sql = "SELECT t FROM Tarea t WHERE t.idtramite = :tramite";
-		Query query = ds.getEntityManager().createNamedQuery(sql, Tarea.class);
+		TypedQuery<Tarea> query = ds.getEntityManager().createNamedQuery(sql, Tarea.class);
 		query.setParameter("tramite", tramite.getIdentificador());
 		return query.getResultList();
 	}
@@ -66,12 +66,11 @@ public class DAOTarea implements ITarea {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Rol> tareaRoles(Tarea tarea) throws WorkFlowException {
 		String sql = "SELECT r FROM Rol r, (SELECT ar.idrol FROM ActividadRoles ar WHERE idactividad = :actividad) a "
 				+ " WHERE r.identificador = a.idrol";
-		Query query = ds.getEntityManager().createQuery(sql, Rol.class);
+		TypedQuery<Rol> query = ds.getEntityManager().createQuery(sql, Rol.class);
 		query.setParameter("actividad", tarea.getActividad().getIdentificador());
 		return query.getResultList();
 	}
@@ -86,12 +85,11 @@ public class DAOTarea implements ITarea {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Usuario> tareaUsuarios(Tarea tarea) throws WorkFlowException {
 		String sql = "SELECT u FROM Usuario u, (SELECT au.idusuario FROM ActividadUsuarios au WHERE idactividad = :actividad) a "
 				+ " WHERE u.identificador = a.idusuario";
-		Query query = ds.getEntityManager().createQuery(sql, Usuario.class);
+		TypedQuery<Usuario> query = ds.getEntityManager().createQuery(sql, Usuario.class);
 		query.setParameter("actividad", tarea.getActividad().getIdentificador());
 		return query.getResultList();
 	}
@@ -104,7 +102,6 @@ public class DAOTarea implements ITarea {
 		c.setFecha(new Date());
 		c.setIdentificador();
 		c.setIdusuario(tarea.getIdusuario());
-		c.setSesion("sesion");
 		c.setTarea(tarea);
 		ds.insert(c);
 		return c;

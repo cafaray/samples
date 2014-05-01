@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -17,7 +17,7 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm90t")
 @NamedQuery(name="Rol.findAll", query="SELECT r FROM Rol r")
-public class Rol implements Serializable, ICommonFields {
+public class Rol implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -26,7 +26,7 @@ public class Rol implements Serializable, ICommonFields {
 
 	private String descripcion;
 
-	private String idrol;
+	private String idborol;
 
 	private String idsesion;
 
@@ -35,8 +35,13 @@ public class Rol implements Serializable, ICommonFields {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date tmstmp;
 
+	//bi-directional many-to-one association to Usuario
+	@OneToMany(mappedBy="Rol")
+	private List<Usuario> Usuario;
+
 	public Rol() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
 	public String getIdentificador() {
@@ -47,6 +52,11 @@ public class Rol implements Serializable, ICommonFields {
 		this.identificador = identificador;
 	}
 
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public String getDescripcion() {
 		return this.descripcion;
 	}
@@ -55,21 +65,21 @@ public class Rol implements Serializable, ICommonFields {
 		this.descripcion = descripcion;
 	}
 
-	public String getIdrol() {
-		return this.idrol;
+	public String getIdborol() {
+		return this.idborol;
 	}
 
-	public void setIdrol(String idrol) {
-		this.idrol = idrol;
+	public void setIdborol(String idborol) {
+		this.idborol = idborol;
 	}
 
 	public String getIdsesion() {
 		return this.idsesion;
 	}
 
-	//public void setIdsesion(String idsesion) {
-	//	this.idsesion = idsesion;
-	//}
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
+	}
 
 	public String getPrefijo() {
 		return this.prefijo;
@@ -83,23 +93,30 @@ public class Rol implements Serializable, ICommonFields {
 		return this.tmstmp;
 	}
 
-	//public void setTmstmp(Date tmstmp) {
-	//	this.tmstmp = tmstmp;
-	//}
-
-	@Override
-	public void setSesion(String sesion) {
-		this.idsesion = sesion;
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
 	}
 
-	@Override
-	public String setIdentificador() {
-		if(identificador==null){
-			identificador = GeneratedValues.toMD5();
-		}else{
-			//nothing to do ...
-		}
-		return identificador;
+	public List<Usuario> getUsuario() {
+		return this.Usuario;
+	}
+
+	public void setUsuario(List<Usuario> Usuario) {
+		this.Usuario = Usuario;
+	}
+
+	public Usuario addUsuario(Usuario Usuario) {
+		getUsuario().add(Usuario);
+		Usuario.setRol(this);
+
+		return Usuario;
+	}
+
+	public Usuario removeUsuario(Usuario Usuario) {
+		getUsuario().remove(Usuario);
+		Usuario.setRol(null);
+
+		return Usuario;
 	}
 
 }

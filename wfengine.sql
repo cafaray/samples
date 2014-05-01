@@ -17,9 +17,10 @@ USE wfengine ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm00t (
   identificador VARCHAR(32) NOT NULL,
-  nombre VARCHAR(250) NOT NULL,
   version INT NOT NULL,
+  nombre VARCHAR(250) NOT NULL,
   publicado CHAR(1) NOT NULL,
+  archivo VARCHAR(120) NULL,
   fechaInicio DATETIME NOT NULL,
   fechaTermino DATETIME NOT NULL,
   estatus VARCHAR(2) NOT NULL,
@@ -27,9 +28,6 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm00t (
   idsesion VARCHAR(32) NOT NULL,
   PRIMARY KEY (identificador, version)
 )ENGINE = InnoDB;
-
-CREATE UNIQUE INDEX IDXVERSION ON wfengine.kwfm00t (version ASC);
-
 
 -- -----------------------------------------------------
 -- Table wfengine.Proceso
@@ -39,7 +37,6 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm10t (
   identificador VARCHAR(32) NOT NULL,
   nombre VARCHAR(120) NOT NULL,
   descripcion VARCHAR(250) NOT NULL,
-  archivo VARCHAR(120) NULL,
   idsesion VARCHAR(45) NOT NULL,
   tmstmp DATETIME NOT NULL,
   PRIMARY KEY (identificador)
@@ -52,12 +49,14 @@ CREATE UNIQUE INDEX NOMBRE_UNIQUE ON wfengine.kwfm10t (nombre ASC);
 -- Table wfengine.FlujoProcesos
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm01t (
+  identificador VARCHAR(32) NOT NULL,
   idflujo VARCHAR(32) NOT NULL,
   version INT NOT NULL,
   idproceso VARCHAR(32) NOT NULL,
+  posicion INT NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
   tmstmp DATETIME NOT NULL,
-  PRIMARY KEY (idflujo, version, idproceso),
+  PRIMARY KEY (identificador),
   CONSTRAINT FLUJOTRABAJO
     FOREIGN KEY (idflujo, version)
     REFERENCES wfengine.kwfm00t (identificador, version)
@@ -70,7 +69,7 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm01t (
     ON UPDATE NO ACTION
 )ENGINE = InnoDB;
 
-CREATE INDEX PROCESO_IDX ON wfengine.kwfm01t (idproceso ASC);
+CREATE UNIQUE INDEX FLUJO_PROCESOS ON wfengine.kwfm01t(idflujo,version,idproceso);
 
 
 -- -----------------------------------------------------
@@ -123,6 +122,8 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm23t (
     ON UPDATE NO ACTION  
 )ENGINE=InnoDB;
 
+CREATE UNIQUE INDEX TRANSICION_INICIO ON wfengine.kwfm23t(idtransicion,idactividad); 
+
 -- -----------------------------------------------------
 -- Table wfengine.TransicionDestino
 -- -----------------------------------------------------
@@ -154,11 +155,12 @@ CREATE INDEX TRANSICION_idx ON wfengine.kwfm23t (idtransicion ASC);
 -- Table wfengine.ProcesoTransiciones
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm12t (
+  identificador VARCHAR(32) NOT NULL,
   idproceso VARCHAR(32) NOT NULL,
   idtransicion VARCHAR(32) NOT NULL,
   tmstmp DATETIME NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
-  PRIMARY KEY (idproceso, idtransicion),
+  PRIMARY KEY (identificador),
   CONSTRAINT TRANSICIONES
     FOREIGN KEY (idtransicion)
     REFERENCES wfengine.kwfm20t (identificador)
@@ -171,7 +173,7 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm12t (
     ON UPDATE NO ACTION
 )ENGINE = InnoDB;
 
-CREATE INDEX TRANSICION_idx ON wfengine.kwfm12t (idtransicion ASC);
+CREATE UNIQUE INDEX PROCESO_TRANSICION ON wfengine.kwfm12t (idtransicion);
 
 
 -- -----------------------------------------------------
@@ -192,11 +194,12 @@ ENGINE = InnoDB;
 -- Table wfengine.ActividadParametros
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm63t (
+  identificador VARCHAR(32) NOT NULL,
   idactividad VARCHAR(32) NOT NULL,
   idparametro VARCHAR(32) NOT NULL,
   tmstmp DATETIME NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
-  PRIMARY KEY (idactividad, idparametro),
+  PRIMARY KEY (identificador),
   CONSTRAINT LA_ACTIVIDAD
     FOREIGN KEY (idactividad)
     REFERENCES wfengine.kwfm30t (identificador)
@@ -209,31 +212,29 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm63t (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX PARAMETRO_idx ON wfengine.kwfm63t (idparametro ASC);
-
-
 -- -----------------------------------------------------
 -- Table wfengine.TransicionDestionoParametro
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS wfengine.kwfm62t (
-  idtransdest VARCHAR(32) NOT NULL,
-  idparametro VARCHAR(32) NOT NULL,
-  tmstmp DATETIME NULL,
-  idsesion VARCHAR(32) NULL,
-  PRIMARY KEY (idtransdest, idparametro),
-  CONSTRAINT TRANSICION_PARAM
-    FOREIGN KEY (idtransdest)
-    REFERENCES wfengine.kwfm24t (identificador)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT PARAM_TRANSICION
-    FOREIGN KEY (idparametro)
-    REFERENCES wfengine.kwfm60t (identificador)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION
-)ENGINE = InnoDB;
+-- CREATE TABLE IF NOT EXISTS wfengine.kwfm62t (
+--   identificador VARCHAR(32) NOT NULL,
+--   idtransicion VARCHAR(32) NOT NULL,
+--   idparametro VARCHAR(32) NOT NULL,
+--   tmstmp DATETIME NULL,
+--   idsesion VARCHAR(32) NULL,
+--   PRIMARY KEY (identificador),
+--   CONSTRAINT TRANSICION_PARAM
+--     FOREIGN KEY (idtransdest)
+--     REFERENCES wfengine.kwfm24t (identificador)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION,
+--   CONSTRAINT PARAM_TRANSICION
+--     FOREIGN KEY (idparametro)
+--     REFERENCES wfengine.kwfm60t (identificador)
+--     ON DELETE NO ACTION
+--     ON UPDATE NO ACTION
+-- )ENGINE = InnoDB;
 
-CREATE INDEX PARAMETRO_idx ON wfengine.kwfm62t (idparametro ASC);
+-- CREATE INDEX PARAMETRO_idx ON wfengine.kwfm62t (idparametro ASC);
 
 
 -- -----------------------------------------------------
@@ -241,7 +242,7 @@ CREATE INDEX PARAMETRO_idx ON wfengine.kwfm62t (idparametro ASC);
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm90t (
   identificador VARCHAR(32) NOT NULL,
-  idrol VARCHAR(32) NOT NULL,
+  idborol VARCHAR(32) NOT NULL,
   prefijo VARCHAR(5) NOT NULL,
   descripcion VARCHAR(120) NULL,
   tmstmp DATETIME NOT NULL,
@@ -254,11 +255,12 @@ ENGINE = InnoDB;
 -- Table wfengine.ActividadRoles
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm93t (
+  identificador VARCHAR(32) NOT NULL,
   idactividad VARCHAR(32) NOT NULL,
   idrol VARCHAR(32) NOT NULL,
   tmstmp DATETIME NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
-  PRIMARY KEY (idactividad, idrol),
+  PRIMARY KEY (identificador),
   CONSTRAINT ROL_ACTIVIDAD
     FOREIGN KEY (idactividad)
     REFERENCES wfengine.kwfm30t (identificador)
@@ -271,38 +273,42 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm93t (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX ROL_IDX ON wfengine.kwfm93t (idrol ASC);
-
-
 -- -----------------------------------------------------
 -- Table wfengine.Usuario
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm80t (
   identificador VARCHAR(32) NOT NULL,
-  idusuario VARCHAR(32) NOT NULL,
-  cuenta VARCHAR(16) NOT NULL,
-  nombre VARCHAR(120) NOT NULL,
-  iniciales VARCHAR(9) NOT NULL,
+  idbousuario VARCHAR(32) NOT NULL,
+  bocuenta VARCHAR(16) NOT NULL,
+  bonombre VARCHAR(120) NOT NULL,
+  boiniciales VARCHAR(9) NOT NULL,
   idrol VARCHAR(32) NOT NULL,
   ultimaActualizacion DATETIME NULL,
   esActivo CHAR(1) NOT NULL DEFAULT 'S',
   tmstmp DATETIME NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
-  PRIMARY KEY (identificador))
-ENGINE = InnoDB;
+  PRIMARY KEY (identificador),
+  CONSTRAINT USUARIO_ROL
+    FOREIGN KEY (idrol)
+    REFERENCES wfengine.kwfm90t(identificador)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+)ENGINE = InnoDB;
 
-CREATE UNIQUE INDEX idusuario_UNIQUE ON wfengine.kwfm80t (idusuario ASC);
-
+CREATE UNIQUE INDEX idusuario_UNIQUE ON wfengine.kwfm80t (idbousuario ASC);
+CREATE UNIQUE INDEX idusuario_cuenta_UNIQUE ON wfengine.kwfm80t (bocuenta ASC);
+CREATE UNIQUE INDEX idusuario_iniciales_UNIQUE ON wfengine.kwfm80t (boiniciales ASC);
 
 -- -----------------------------------------------------
 -- Table wfengine.ActividadUsusarios
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm83t (
+  identificador VARCHAR(32) NOT NULL,
   idactividad VARCHAR(32) NOT NULL,
   idusuario VARCHAR(32) NOT NULL,
   tmstmp DATETIME NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
-  PRIMARY KEY (idactividad, idusuario),
+  PRIMARY KEY (identificador),
   CONSTRAINT ACTIVIDAD_USUARIO
     FOREIGN KEY (idactividad)
     REFERENCES wfengine.kwfm30t (identificador)
@@ -312,30 +318,30 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm83t (
     FOREIGN KEY (idusuario)
     REFERENCES wfengine.kwfm80t (identificador)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION
+)ENGINE = InnoDB;
 
 CREATE INDEX USUARIO_idx ON wfengine.kwfm83t (idusuario ASC);
-
 
 -- -----------------------------------------------------
 -- Table wfengine.Tramite
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm70t (
   identificador VARCHAR(32) NOT NULL,
-  idtramite VARCHAR(32) NOT NULL,
   idflujo VARCHAR(32) NOT NULL,
+  version INT NOT NULL,
+  idbotramite VARCHAR(32) NOT NULL,
+  estatus VARCHAR(2) NOT NULL,
   idusuario VARCHAR(32) NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
-  estatus VARCHAR(2) NOT NULL,
-  tmstmp VARCHAR(45) NOT NULL,
+  tmstmp DATETIME NOT NULL,
   PRIMARY KEY (identificador),
   CONSTRAINT FLUJOSTRABAJO
-    FOREIGN KEY (idflujo)
-    REFERENCES wfengine.kwfm00t (identificador)
+    FOREIGN KEY (idflujo,version)
+    REFERENCES wfengine.kwfm00t (identificador,version)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION
+)ENGINE = InnoDB;
 
 CREATE INDEX FLUJOTRABAJO_idx ON wfengine.kwfm70t (idflujo ASC);
 
@@ -347,10 +353,10 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm73t (
   identificador VARCHAR(32) NOT NULL,
   idtramite VARCHAR(32) NOT NULL,
   idactividad VARCHAR(32) NOT NULL,
-  idusuario VARCHAR(32) NOT  NULL,
   estatus VARCHAR(2) NOT NULL,
-  tmstmp DATETIME NOT NULL,
+  idusuario VARCHAR(32) NOT  NULL,
   idsesion VARCHAR(32) NOT NULL,
+  tmstmp DATETIME NOT NULL,
   PRIMARY KEY (identificador),
   CONSTRAINT TRAMITES
     FOREIGN KEY (idtramite)
@@ -361,24 +367,23 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm73t (
     FOREIGN KEY (idactividad)
     REFERENCES wfengine.kwfm30t (identificador)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION
+)ENGINE = InnoDB;
 
 CREATE INDEX TRAMITE_idx ON wfengine.kwfm73t (idtramite ASC);
-
 CREATE INDEX ACTIVIDAD_idx ON wfengine.kwfm73t (idactividad ASC);
-
 
 -- -----------------------------------------------------
 -- Table wfengine.TareaParamteros
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS wfengine.kwfm76t (
+  identificador VARCHAR(32) NOT NULL,
   idtarea VARCHAR(32) NOT NULL,
   idparametro VARCHAR(32) NOT NULL,
   valparametro VARCHAR(255) NOT NULL,
-  tmstmp DATETIME NOT NULL,
   idsesion VARCHAR(32) NOT NULL,
-  PRIMARY KEY (idtarea, idparametro),
+  tmstmp DATETIME NOT NULL,
+  PRIMARY KEY (identificador),
   CONSTRAINT TAREA
     FOREIGN KEY (idtarea)
     REFERENCES wfengine.kwfm73t (identificador)
@@ -388,8 +393,8 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm76t (
     FOREIGN KEY (idparametro)
     REFERENCES wfengine.kwfm60t (identificador)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION
+)ENGINE = InnoDB;
 
 CREATE INDEX PARAMETRO_idx ON wfengine.kwfm76t (idparametro ASC);
 
@@ -403,8 +408,8 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm50t (
   idusuario VARCHAR(32) NULL,
   fecha DATETIME NULL,
   comentario VARCHAR(500) NULL,
-  tmstmp DATETIME NULL,
   idsesion VARCHAR(32) NULL,
+  tmstmp DATETIME NULL,
   PRIMARY KEY (identificador),
   CONSTRAINT LA_TAREA
     FOREIGN KEY (idtarea)
@@ -414,11 +419,6 @@ CREATE TABLE IF NOT EXISTS wfengine.kwfm50t (
 ENGINE = InnoDB;
 
 CREATE INDEX TAREA_idx ON wfengine.kwfm50t (idtarea ASC);
-
-CREATE TABLE SEQUENCE (
-  SEQ_NAME VARCHAR(16) NOT NULL,
-  SEQ_COUNT INT NOT NULL
-);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

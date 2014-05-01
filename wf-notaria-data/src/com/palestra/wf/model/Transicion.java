@@ -4,23 +4,23 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
+
 
 /**
  * The persistent class for the kwfm20t database table.
  * 
  */
 @Entity
-@Table(name = "kwfm20t")
-@NamedQuery(name = "Transicion.findAll", query = "SELECT t FROM Transicion t")
-public class Transicion implements Serializable, ICommonFields {
+@Table(name="kwfm20t")
+@NamedQuery(name="Transicion.findAll", query="SELECT t FROM Transicion t")
+public class Transicion implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	// @GeneratedValue(strategy=GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String identificador;
 
 	private String idsesion;
@@ -34,6 +34,7 @@ public class Transicion implements Serializable, ICommonFields {
 
 	public Transicion() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
 	public String getIdentificador() {
@@ -44,13 +45,18 @@ public class Transicion implements Serializable, ICommonFields {
 		this.identificador = identificador;
 	}
 
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public String getIdsesion() {
 		return this.idsesion;
 	}
 
-	// public void setIdsesion(String idsesion) {
-	// this.idsesion = idsesion;
-	// }
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
+	}
 
 	public String getNombre() {
 		return this.nombre;
@@ -72,23 +78,8 @@ public class Transicion implements Serializable, ICommonFields {
 		return this.tmstmp;
 	}
 
-	// public void setTmstmp(Date tmstmp) {
-	// this.tmstmp = tmstmp;
-	// }
-
-	@Override
-	public void setSesion(String sesion) {
-		idsesion = sesion;
-	}
-
-	@Override
-	public String setIdentificador() {
-		if (identificador == null) {
-			identificador = GeneratedValues.toMD5();
-		} else {
-			// nothing to do ...
-		}
-		return identificador;
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
 	}
 
 }

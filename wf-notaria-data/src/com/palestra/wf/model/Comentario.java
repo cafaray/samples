@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
 
@@ -17,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name="kwfm50t")
 @NamedQuery(name="Comentario.findAll", query="SELECT c FROM Comentario c")
-public class Comentario implements Serializable, ICommonFields {
+public class Comentario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -43,6 +42,7 @@ public class Comentario implements Serializable, ICommonFields {
 
 	public Comentario() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
 	public String getIdentificador() {
@@ -53,6 +53,11 @@ public class Comentario implements Serializable, ICommonFields {
 		this.identificador = identificador;
 	}
 
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public String getComentario() {
 		return this.comentario;
 	}
@@ -73,9 +78,9 @@ public class Comentario implements Serializable, ICommonFields {
 		return this.idsesion;
 	}
 
-//	public void setIdsesion(String idsesion) {
-//		this.idsesion = idsesion;
-//	}
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
+	}
 
 	public String getIdusuario() {
 		return this.idusuario;
@@ -89,9 +94,9 @@ public class Comentario implements Serializable, ICommonFields {
 		return this.tmstmp;
 	}
 
-//	public void setTmstmp(Date tmstmp) {
-//		this.tmstmp = tmstmp;
-//	}
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
+	}
 
 	public Tarea getTarea() {
 		return this.Tarea;
@@ -99,21 +104,6 @@ public class Comentario implements Serializable, ICommonFields {
 
 	public void setTarea(Tarea Tarea) {
 		this.Tarea = Tarea;
-	}
-
-	@Override
-	public void setSesion(String sesion) {
-		idsesion = sesion;
-	}
-
-	@Override
-	public String setIdentificador() {
-		if(identificador==null){
-			identificador = GeneratedValues.toMD5();
-		}else{
-			//nothing to do ...
-		}
-		return identificador;
 	}
 
 }

@@ -40,5 +40,5 @@ public class DAOTransicion implements ITransicion {
 	public List<Transicion> lista() throws WorkFlowException {		
 		return ds.list("Transicion.findAll", Transicion.class);
 	}
-
+	
 }

@@ -2,7 +2,8 @@ package com.palestra.wf.dao.impl;
 
 import java.util.List;
 
-import javax.persistence.Query;
+
+import javax.persistence.TypedQuery;
 
 import com.palestra.wf.dao.ITransicionDestino;
 import com.palestra.wf.exception.WorkFlowException;
@@ -36,12 +37,11 @@ public class DAOTransicionDestino implements ITransicionDestino {
 		return true;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<TransicionDestino> lista(Transicion transicion)
 			throws WorkFlowException {
 		String sql = "SELECT td FROM TransicionDestino td WHERE td.idtransicion = :identificador";
-		Query query = ds.getEntityManager().createQuery(sql);
+		TypedQuery<TransicionDestino> query = ds.getEntityManager().createQuery(sql, TransicionDestino.class);
 		query.setParameter("identificador", transicion.getIdentificador());
 		return query.getResultList();
 	}

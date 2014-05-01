@@ -4,23 +4,23 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
+
 
 /**
  * The persistent class for the kwfm23t database table.
  * 
  */
 @Entity
-@Table(name = "kwfm23t")
-@NamedQuery(name = "TransicionActividad.findAll", query = "SELECT t FROM TransicionActividad t")
-public class TransicionActividad implements Serializable, ICommonFields {
+@Table(name="kwfm23t")
+@NamedQuery(name="TransicionActividad.findAll", query="SELECT t FROM TransicionActividad t")
+public class TransicionActividad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	// @GeneratedValue(strategy=GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String identificador;
 
 	private String idsesion;
@@ -28,18 +28,19 @@ public class TransicionActividad implements Serializable, ICommonFields {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date tmstmp;
 
-	// uni-directional many-to-one association to Actividad
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idactividad")
-	private Actividad Actividad;
-
-	// uni-directional many-to-one association to Transicion
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idtransicion")
+	//uni-directional many-to-one association to Transicion
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idtransicion")
 	private Transicion Transicion;
+
+	//uni-directional many-to-one association to Actividad
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="idactividad")
+	private Actividad Actividad;
 
 	public TransicionActividad() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
 	public String getIdentificador() {
@@ -50,28 +51,25 @@ public class TransicionActividad implements Serializable, ICommonFields {
 		this.identificador = identificador;
 	}
 
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
+	}
+	
 	public String getIdsesion() {
 		return this.idsesion;
 	}
 
-	// public void setIdsesion(String idsesion) {
-	// this.idsesion = idsesion;
-	// }
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
+	}
 
 	public Date getTmstmp() {
 		return this.tmstmp;
 	}
 
-	// public void setTmstmp(Date tmstmp) {
-	// this.tmstmp = tmstmp;
-	// }
-
-	public Actividad getActividad() {
-		return this.Actividad;
-	}
-
-	public void setActividad(Actividad Actividad) {
-		this.Actividad = Actividad;
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
 	}
 
 	public Transicion getTransicion() {
@@ -82,19 +80,12 @@ public class TransicionActividad implements Serializable, ICommonFields {
 		this.Transicion = Transicion;
 	}
 
-	@Override
-	public void setSesion(String sesion) {
-		idsesion = sesion;
+	public Actividad getActividad() {
+		return this.Actividad;
 	}
 
-	@Override
-	public String setIdentificador() {
-		if (identificador == null) {
-			identificador = GeneratedValues.toMD5();
-		} else {
-			// nothing to do ...
-		}
-		return identificador;
+	public void setActividad(Actividad Actividad) {
+		this.Actividad = Actividad;
 	}
 
 }

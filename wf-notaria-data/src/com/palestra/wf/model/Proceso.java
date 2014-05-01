@@ -4,26 +4,24 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
-import com.palestra.wf.model.util.GeneratedValues;
-import com.palestra.wf.model.util.ICommonFields;
+import com.palestra.wf.model.util.GeneraIdentificador;
 
 import java.util.Date;
+
 
 /**
  * The persistent class for the kwfm10t database table.
  * 
  */
 @Entity
-@Table(name = "kwfm10t")
-@NamedQuery(name = "Proceso.findAll", query = "SELECT p FROM Proceso p")
-public class Proceso implements Serializable, ICommonFields {
+@Table(name="kwfm10t")
+@NamedQuery(name="Proceso.findAll", query="SELECT p FROM Proceso p")
+public class Proceso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private String identificador;
-
-	private String archivo;
 
 	private String descripcion;
 
@@ -36,6 +34,7 @@ public class Proceso implements Serializable, ICommonFields {
 
 	public Proceso() {
 		tmstmp = new Date();
+		idsesion = "";
 	}
 
 	public String getIdentificador() {
@@ -46,14 +45,11 @@ public class Proceso implements Serializable, ICommonFields {
 		this.identificador = identificador;
 	}
 
-	public String getArchivo() {
-		return this.archivo;
+	public String setIdentificador(){
+		this.identificador =GeneraIdentificador.toMD5(); 
+		return this.identificador;
 	}
-
-	public void setArchivo(String archivo) {
-		this.archivo = archivo;
-	}
-
+	
 	public String getDescripcion() {
 		return this.descripcion;
 	}
@@ -66,9 +62,9 @@ public class Proceso implements Serializable, ICommonFields {
 		return this.idsesion;
 	}
 
-	// public void setIdsesion(String idsesion) {
-	// this.idsesion = idsesion;
-	// }
+	public void setIdsesion(String idsesion) {
+		this.idsesion = idsesion;
+	}
 
 	public String getNombre() {
 		return this.nombre;
@@ -82,23 +78,8 @@ public class Proceso implements Serializable, ICommonFields {
 		return this.tmstmp;
 	}
 
-	// public void setTmstmp(Date tmstmp) {
-	// this.tmstmp = tmstmp;
-	// }
-
-	@Override
-	public void setSesion(String sesion) {
-		idsesion = sesion;
-	}
-
-	@Override
-	public String setIdentificador() {
-		if (identificador == null) {
-			identificador = GeneratedValues.toMD5();
-		} else {
-			// nothing to do ...
-		}
-		return identificador;
+	public void setTmstmp(Date tmstmp) {
+		this.tmstmp = tmstmp;
 	}
 
 }
