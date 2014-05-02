@@ -36,5 +36,5 @@ public class ManejaWorkflow {
 		DAOFlujoTrabajo dao = new DAOFlujoTrabajo();
 		return dao.listarProcesos(flujoTrabajo);
 	}
-	//TODO : obtener la ultima versión del WF
+	
 }

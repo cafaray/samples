@@ -13,7 +13,9 @@ import java.util.Date;
 @Table(name="kwfm12t")
 @NamedQueries({
 	@NamedQuery(name="ProcesoTransiciones.findAll", query="SELECT p FROM ProcesoTransiciones p"),
-	@NamedQuery(name="ProcesoTransiciones.findByProceso", query="SELECT p FROM ProcesoTransiciones p WHERE p.Proceso.identificador = :idproceso")
+	@NamedQuery(name="ProcesoTransiciones.findByProceso", query="SELECT p FROM ProcesoTransiciones p WHERE p.Proceso.identificador = :idproceso"),
+	@NamedQuery(name="ProcesoTransiciones.findByActividad", 
+	query="SELECT ta FROM TransicionActividad ta WHERE ta.actividad = :actividad AND ta.transicion IN (SELECT pt.Transicion FROM ProcesoTransiciones pt WHERE pt.Proceso = :proceso)")
 })
 
 public class ProcesoTransiciones implements Serializable {

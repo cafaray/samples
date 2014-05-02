@@ -149,6 +149,32 @@ public class ManejaActividad {
 		return t;
 	}	
 	
+	@WebMethod 
+	public int cargarActividades(List<Actividad> actividades)throws WorkFlowException{
+		int cuentaActividad=0;
+		if (actividades!=null && actividades.size()>0){
+			DAOActividad dao = new DAOActividad();
+			for (Actividad actividad:actividades){
+				dao.registraActividad(actividad);
+				cuentaActividad++;
+			}
+		}
+		return cuentaActividad;
+	}
+	
+	@WebMethod 
+	public int cargarActividades(List<Actividad> actividades)throws WorkFlowException{
+		int cuentaActividad=0;
+		if (actividades!=null && actividades.size()>0){
+			DAOActividad dao = new DAOActividad();
+			for (Actividad actividad:actividades){
+				dao.registraActividad(actividad);
+				cuentaActividad++;
+			}
+		}
+		return cuentaActividad;
+	}
+	
 	@WebMethod
 	public List<ActividadParametro> registraParametros(Actividad actividad,
 			List<Parametro> parametros) throws WorkFlowException {

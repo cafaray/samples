@@ -15,7 +15,10 @@ import java.util.Date;
  */
 @Entity
 @Table(name="kwfm24t")
-@NamedQuery(name="TransicionDestino.findAll", query="SELECT t FROM TransicionDestino t")
+@NamedQueries({
+@NamedQuery(name="TransicionDestino.findAll", query="SELECT t FROM TransicionDestino t"),
+@NamedQuery(name="TransicionDestino.findByTransicion", query="SELECT t FROM TransicionDestino t WHERE t.Transicion = :transicion"),
+})
 public class TransicionDestino implements Serializable {
 	private static final long serialVersionUID = 1L;
 

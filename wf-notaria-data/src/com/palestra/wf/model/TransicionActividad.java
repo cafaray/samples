@@ -15,7 +15,11 @@ import java.util.Date;
  */
 @Entity
 @Table(name="kwfm23t")
-@NamedQuery(name="TransicionActividad.findAll", query="SELECT t FROM TransicionActividad t")
+@NamedQueries({
+	@NamedQuery(name="TransicionActividad.findAll", query="SELECT t FROM TransicionActividad t"),
+	@NamedQuery(name="TransicionActividad.findByActividad", query="SELECT t FROM TransicionActividad t WHERE t.actividad = :actividad")
+})
+
 public class TransicionActividad implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -31,12 +35,12 @@ public class TransicionActividad implements Serializable {
 	//uni-directional many-to-one association to Transicion
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idtransicion")
-	private Transicion Transicion;
+	private Transicion transicion;
 
 	//uni-directional many-to-one association to Actividad
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="idactividad")
-	private Actividad Actividad;
+	private Actividad actividad;
 
 	public TransicionActividad() {
 		tmstmp = new Date();
@@ -73,19 +77,19 @@ public class TransicionActividad implements Serializable {
 	}
 
 	public Transicion getTransicion() {
-		return this.Transicion;
+		return this.transicion;
 	}
 
 	public void setTransicion(Transicion Transicion) {
-		this.Transicion = Transicion;
+		this.transicion = Transicion;
 	}
 
 	public Actividad getActividad() {
-		return this.Actividad;
+		return this.actividad;
 	}
 
 	public void setActividad(Actividad Actividad) {
-		this.Actividad = Actividad;
+		this.actividad = Actividad;
 	}
 
 }
