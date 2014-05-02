@@ -1,14 +1,18 @@
 package com.palestra.wf.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.palestra.wf.dao.IFlujoTrabajo;
 import com.palestra.wf.enums.EstatusPublicacion;
 import com.palestra.wf.exception.WorkFlowException;
 import com.palestra.wf.model.FlujoTrabajo;
 import com.palestra.wf.model.FlujoTrabajoPK;
+import com.palestra.wf.model.FlujoTrabajoProcesos;
+import com.palestra.wf.model.Proceso;
 import com.palestra.wf.model.util.DoSomething;
 
 public class DAOFlujoTrabajo implements IFlujoTrabajo {
@@ -92,5 +96,27 @@ public class DAOFlujoTrabajo implements IFlujoTrabajo {
 		FlujoTrabajo flujoTrabajo = (FlujoTrabajo)query.getSingleResult();
 		return flujoTrabajo;
 	}
+	
+	@Override
+	public FlujoTrabajoProcesos agregarProceso(FlujoTrabajo flujoTrabajo, Proceso proceso) throws WorkFlowException{
+		FlujoTrabajoProcesos fp = new FlujoTrabajoProcesos();
+		fp.setFlujoTrabajo(flujoTrabajo);
+		fp.setProceso(proceso);
+		ds.insert(fp);
+		return fp;
+	}
 
+	@Override
+	public List<Proceso> listarProcesos(FlujoTrabajo flujoTrabajo) throws WorkFlowException{
+		TypedQuery<FlujoTrabajoProcesos> query = ds.getEntityManager().createNamedQuery("FlujoTrabajoProcesos.findByProceso", FlujoTrabajoProcesos.class);
+		query.setParameter("idproceso", flujoTrabajo.getId().getIdentificador());
+		query.setParameter("version", flujoTrabajo.getId().getVersion());
+		List<FlujoTrabajoProcesos> ftps = query.getResultList();
+		List<Proceso> procesos = new ArrayList<Proceso>();
+		for(FlujoTrabajoProcesos ftp:ftps){
+			procesos.add(ftp.getProceso());
+		}
+		return procesos;
+	}
+	
 }

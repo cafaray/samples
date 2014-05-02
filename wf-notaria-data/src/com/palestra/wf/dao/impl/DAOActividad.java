@@ -6,18 +6,16 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import com.palestra.wf.dao.IActividad;
-import com.palestra.wf.enums.TipoDestino;
+
 import com.palestra.wf.exception.WorkFlowException;
 import com.palestra.wf.model.Actividad;
 import com.palestra.wf.model.ActividadParametro;
 import com.palestra.wf.model.Parametro;
-import com.palestra.wf.model.Transicion;
-import com.palestra.wf.model.TransicionDestino;
 import com.palestra.wf.model.util.DoSomething;
 
-public class DAOActividad implements IActividad{
-	DoSomething ds; 
-	
+public class DAOActividad implements IActividad {
+	DoSomething ds;
+
 	public DAOActividad() {
 		ds = new DoSomething();
 	}
@@ -44,34 +42,33 @@ public class DAOActividad implements IActividad{
 	}
 
 	@Override
-	public List<Actividad> listar() throws WorkFlowException {
-		return ds.list("Actividad.findAll", Actividad.class);
+	public boolean eliminarActividad(String idactividad)
+			throws WorkFlowException {
+		Actividad actividad = ds.findById(Actividad.class, idactividad);
+		if (actividad != null) {
+			ds.remove(actividad);
+		} else {
+			return false;
+		}
+		return true;
 	}
 
-	
 	@Override
-	public Transicion asignarDestino(Actividad destino) throws WorkFlowException {
-		
-		Transicion transicion = new Transicion();
-		transicion.setIdentificador();
-		transicion.setNombre("Destino "+destino.getNombre());
-		transicion.setTipodestino(TipoDestino.ACTIVIDAD.getCodigo());
-		ds.insert(transicion);
-		
-		TransicionDestino td = new TransicionDestino();
-		td.setActividad(destino);
-		td.setIdentificador();
-		td.setTransicion(transicion);
-		ds.insert(td);
-		
-		return transicion;
+	public Actividad obtenerActividad(String idactividad)
+			throws WorkFlowException {
+		return ds.findById(Actividad.class, idactividad);
+	}
+
+	@Override
+	public List<Actividad> listar() throws WorkFlowException {
+		return ds.list("Actividad.findAll", Actividad.class);
 	}
 
 	@Override
 	public List<ActividadParametro> asignarParametros(Actividad actividad,
 			List<Parametro> parametros) throws WorkFlowException {
 		List<ActividadParametro> vuelta = new ArrayList<ActividadParametro>();
-		for(Parametro parametro: parametros){
+		for (Parametro parametro : parametros) {
 			ActividadParametro ap = new ActividadParametro();
 			ap.setIdentificador();
 			ap.setActividad(actividad);
@@ -83,17 +80,28 @@ public class DAOActividad implements IActividad{
 	}
 
 	@Override
-	public boolean quitarParametro(ActividadParametro actividadParametro) throws WorkFlowException {
+	public List<ActividadParametro> asignarParametro(Actividad actividad, Parametro parametro) throws WorkFlowException {
+		ActividadParametro ap = new ActividadParametro();
+		ap.setIdentificador();
+		ap.setActividad(actividad);
+		ap.setParametro(parametro);
+		ds.insert(ap);
+		return listarParametros(actividad);
+	}	
+	
+	@Override
+	public boolean quitarParametro(ActividadParametro actividadParametro)
+			throws WorkFlowException {
 		ds.remove(actividadParametro);
 		return true;
 	}
 
 	@Override
 	public List<ActividadParametro> actualizarParametros(Actividad actividad,
-			List<Parametro> parametros) throws WorkFlowException {		
+			List<Parametro> parametros) throws WorkFlowException {
 		List<ActividadParametro> trabajo = listarParametros(actividad);
-		
-		for(ActividadParametro parametro: trabajo){
+
+		for (ActividadParametro parametro : trabajo) {
 			ds.remove(parametro);
 		}
 		return asignarParametros(actividad, parametros);
@@ -103,11 +111,10 @@ public class DAOActividad implements IActividad{
 	public List<ActividadParametro> listarParametros(Actividad actividad)
 			throws WorkFlowException {
 		String sql = "SELECT ap FROM ActividadParametro ap WHERE ap.idactividad = :actividad";
-		TypedQuery<ActividadParametro> query = ds.getEntityManager().createQuery(sql, ActividadParametro.class);
+		TypedQuery<ActividadParametro> query = ds.getEntityManager()
+				.createQuery(sql, ActividadParametro.class);
 		query.setParameter("actividad", actividad.getIdentificador());
 		return query.getResultList();
 	}
-
-
 
 }

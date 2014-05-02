@@ -9,13 +9,13 @@ import com.palestra.wf.model.util.GeneraIdentificador;
 import java.util.Date;
 
 
-/**
- * The persistent class for the kwfm12t database table.
- * 
- */
 @Entity
 @Table(name="kwfm12t")
-@NamedQuery(name="ProcesoTransiciones.findAll", query="SELECT p FROM ProcesoTransiciones p")
+@NamedQueries({
+	@NamedQuery(name="ProcesoTransiciones.findAll", query="SELECT p FROM ProcesoTransiciones p"),
+	@NamedQuery(name="ProcesoTransiciones.findByProceso", query="SELECT p FROM ProcesoTransiciones p WHERE p.Proceso.identificador = :idproceso")
+})
+
 public class ProcesoTransiciones implements Serializable {
 	private static final long serialVersionUID = 1L;
 

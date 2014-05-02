@@ -2,6 +2,8 @@ package com.palestra.wf.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.TypedQuery;
+
 import com.palestra.wf.dao.IProceso;
 import com.palestra.wf.exception.WorkFlowException;
 import com.palestra.wf.model.Proceso;
@@ -41,13 +43,13 @@ public class DAOProceso implements IProceso {
 	}
 
 	@Override
-	public Proceso agregarTransicion(Proceso proceso, Transicion transicion)
+	public ProcesoTransiciones agregarTransicion(Proceso proceso, Transicion transicion)
 			throws WorkFlowException {
 		ProcesoTransiciones pt = new ProcesoTransiciones();
 		pt.setProceso(proceso);
 		pt.setTransicion(transicion);
 		ds.insert(pt);
-		return proceso;
+		return pt;
 	}
 
 	@Override
@@ -61,14 +63,21 @@ public class DAOProceso implements IProceso {
 	}
 
 	@Override
-	public Proceso asignarTransiciones(Proceso proceso,
+	public List<ProcesoTransiciones> asignarTransiciones(Proceso proceso,
 			List<Transicion> transiciones) throws WorkFlowException {
 		for(Transicion transicion:transiciones){
 			agregarTransicion(proceso, transicion);
 		}
-		return proceso;
+		return listarTransiciones(proceso);
 	}
 
+	@Override
+	public List<ProcesoTransiciones> listarTransiciones(Proceso proceso) throws WorkFlowException {
+		TypedQuery<ProcesoTransiciones> query = ds.getEntityManager().createNamedQuery("ProcesoTransiciones.findByProceso",ProcesoTransiciones.class);
+		query.setParameter("idproceso", proceso.getIdentificador());		
+		return query.getResultList();
+	}	
+	
 	@Override
 	public Proceso desdeArchivo(String archivo) throws WorkFlowException {
 		throw new UnsupportedOperationException();

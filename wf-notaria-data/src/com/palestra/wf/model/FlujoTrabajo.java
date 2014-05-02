@@ -11,7 +11,11 @@ import java.util.Date;
  */
 @Entity
 @Table(name="kwfm00t")
-@NamedQuery(name="FlujoTrabajo.findAll", query="SELECT f FROM FlujoTrabajo f")
+@NamedQueries({
+	@NamedQuery(name="FlujoTrabajo.findAll", query="SELECT f FROM FlujoTrabajo f")
+
+})
+
 public class FlujoTrabajo implements Serializable {
 	private static final long serialVersionUID = 1L;
 

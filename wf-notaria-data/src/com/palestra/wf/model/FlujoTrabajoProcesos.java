@@ -15,7 +15,12 @@ import java.util.Date;
  */
 @Entity
 @Table(name="kwfm01t")
-@NamedQuery(name="FlujoTrabajoProcesos.findAll", query="SELECT f FROM FlujoTrabajoProcesos f")
+@NamedQueries({
+	@NamedQuery(name="FlujoTrabajoProcesos.findAll", query="SELECT f FROM FlujoTrabajoProcesos f"),
+	@NamedQuery(name="FlujoTrabajoProcesos.findByProceso", query="SELECT f FROM FlujoTrabajoProcesos f "
+			+ "WHERE f.flujoTrabajo.id.identificador = :idproceso AND f.flujoTrabajo.id.version = :version")	
+})
+
 public class FlujoTrabajoProcesos implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -38,7 +43,7 @@ public class FlujoTrabajoProcesos implements Serializable {
 		@JoinColumn(name="idflujo", referencedColumnName="identificador"),
 		@JoinColumn(name="idflujo", referencedColumnName="version")
 	})
-	private FlujoTrabajo FlujoTrabajo;
+	private FlujoTrabajo flujoTrabajo;
 
 	//uni-directional many-to-one association to Proceso
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -96,11 +101,11 @@ public class FlujoTrabajoProcesos implements Serializable {
 	}
 
 	public FlujoTrabajo getFlujoTrabajo() {
-		return this.FlujoTrabajo;
+		return this.flujoTrabajo;
 	}
 
 	public void setFlujoTrabajo(FlujoTrabajo FlujoTrabajo) {
-		this.FlujoTrabajo = FlujoTrabajo;
+		this.flujoTrabajo = FlujoTrabajo;
 	}
 
 	public Proceso getProceso() {
