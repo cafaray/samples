@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+        *** GENERATED FROM jax-ws.xml - DO NOT EDIT !                             ***
+        *** TO MODIFY wsimport options USE Web Service node -> Edit WS Attributes ***
+        *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
+        *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
+
+        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:j2seproject3="http://www.netbeans.org/ns/j2se-project/3" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+    <!--
+                ===================
+                JAX-WS WSIMPORT SECTION
+                ===================
+            -->
+    <target name="wsimport-init" depends="init">
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${libs.jaxws21.classpath}"/>
+        </taskdef>
+    </target>
+    <target name="wsimport-client-usuarioServicios" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/usuarioServicios"/>
+        <property name="wsdl-usuarioServicios" location="xml-resources/web-service-references/usuarioServicios/wsdl/localhost_7070/iaspel/usuarioServicios.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/usuarioServicios" destdir="${build.generated.dir}/jax-wsCache/usuarioServicios" wsdl="${wsdl-usuarioServicios}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:7070/iaspel/usuarioServicios?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-usuarioServicios}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/usuarioServicios"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/usuarioServicios">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-usuarioServicios" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/usuarioServicios"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/com/ftc/aspel/ws"/>
+    </target>
+    <target name="wsimport-client-sesionServicios" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/sesionServicios"/>
+        <property name="wsdl-sesionServicios" location="xml-resources/web-service-references/sesionServicios/wsdl/localhost_7070/iaspel/sesionServicios.wsdl"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/sesionServicios" destdir="${build.generated.dir}/jax-wsCache/sesionServicios" wsdl="${wsdl-sesionServicios}" catalog="catalog.xml" encoding="${source.encoding}" extension="true" verbose="true" fork="false" wsdlLocation="http://localhost:7070/iaspel/sesionServicios?wsdl" xnocompile="true" xendorsed="true">
+            <depends file="${wsdl-sesionServicios}"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/sesionServicios"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/sesionServicios">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="wsimport-client-clean-sesionServicios" depends="-init-project">
+        <delete dir="${build.generated.dir}/jax-wsCache/sesionServicios"/>
+        <delete dir="${build.generated.sources.dir}/jax-ws/com/ftc/aspel/ws"/>
+    </target>
+    <target name="wsimport-client-generate" depends="wsimport-client-usuarioServicios, wsimport-client-sesionServicios"/>
+</project>

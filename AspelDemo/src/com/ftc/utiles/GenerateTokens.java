@@ -35,7 +35,10 @@ public class GenerateTokens {
             } else if (retorno.length() < 32) {
                 retorno = rellenaCeros(retorno, 32);
             }
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println(GenerateTokens.class.getName());
+            ex.printStackTrace(System.out);
+        } catch (UnsupportedEncodingException ex) {
             System.out.println(GenerateTokens.class.getName());
             ex.printStackTrace(System.out);
         }
@@ -60,7 +63,10 @@ public class GenerateTokens {
             } else if (retorno.length() < 32) {
                 retorno = rellenaCeros(retorno, 32);
             }
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println(GenerateTokens.class.getName());
+            ex.printStackTrace(System.out);
+        } catch (UnsupportedEncodingException ex) {
             System.out.println(GenerateTokens.class.getName());
             ex.printStackTrace(System.out);
         }

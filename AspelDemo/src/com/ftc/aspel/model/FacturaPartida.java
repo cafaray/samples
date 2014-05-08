@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.ftc.aspel.model;
 
 import java.io.Serializable;
@@ -15,10 +9,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author omash
- */
 @Entity
 @Table(name = "PAR_FACTF01", catalog = "", schema = "")
 @XmlRootElement
@@ -28,39 +18,22 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "FacturaPartida.findByNumPar", query = "SELECT f FROM FacturaPartida f WHERE f.facturaPartidaPK.numPar = :numPar"),
     @NamedQuery(name = "FacturaPartida.findByCveArt", query = "SELECT f FROM FacturaPartida f WHERE f.cveArt = :cveArt"),
     @NamedQuery(name = "FacturaPartida.findByCant", query = "SELECT f FROM FacturaPartida f WHERE f.cant = :cant"),
-    @NamedQuery(name = "FacturaPartida.findByPxs", query = "SELECT f FROM FacturaPartida f WHERE f.pxs = :pxs"),
     @NamedQuery(name = "FacturaPartida.findByPrec", query = "SELECT f FROM FacturaPartida f WHERE f.prec = :prec"),
     @NamedQuery(name = "FacturaPartida.findByCost", query = "SELECT f FROM FacturaPartida f WHERE f.cost = :cost"),
-    @NamedQuery(name = "FacturaPartida.findByImpu1", query = "SELECT f FROM FacturaPartida f WHERE f.impu1 = :impu1"),
-    @NamedQuery(name = "FacturaPartida.findByImpu2", query = "SELECT f FROM FacturaPartida f WHERE f.impu2 = :impu2"),
-    @NamedQuery(name = "FacturaPartida.findByImpu3", query = "SELECT f FROM FacturaPartida f WHERE f.impu3 = :impu3"),
     @NamedQuery(name = "FacturaPartida.findByImpu4", query = "SELECT f FROM FacturaPartida f WHERE f.impu4 = :impu4"),
-    @NamedQuery(name = "FacturaPartida.findByImp1apla", query = "SELECT f FROM FacturaPartida f WHERE f.imp1apla = :imp1apla"),
-    @NamedQuery(name = "FacturaPartida.findByImp2apla", query = "SELECT f FROM FacturaPartida f WHERE f.imp2apla = :imp2apla"),
-    @NamedQuery(name = "FacturaPartida.findByImp3apla", query = "SELECT f FROM FacturaPartida f WHERE f.imp3apla = :imp3apla"),
     @NamedQuery(name = "FacturaPartida.findByImp4apla", query = "SELECT f FROM FacturaPartida f WHERE f.imp4apla = :imp4apla"),
-    @NamedQuery(name = "FacturaPartida.findByTotimp1", query = "SELECT f FROM FacturaPartida f WHERE f.totimp1 = :totimp1"),
-    @NamedQuery(name = "FacturaPartida.findByTotimp2", query = "SELECT f FROM FacturaPartida f WHERE f.totimp2 = :totimp2"),
-    @NamedQuery(name = "FacturaPartida.findByTotimp3", query = "SELECT f FROM FacturaPartida f WHERE f.totimp3 = :totimp3"),
     @NamedQuery(name = "FacturaPartida.findByTotimp4", query = "SELECT f FROM FacturaPartida f WHERE f.totimp4 = :totimp4"),
     @NamedQuery(name = "FacturaPartida.findByDesc1", query = "SELECT f FROM FacturaPartida f WHERE f.desc1 = :desc1"),
     @NamedQuery(name = "FacturaPartida.findByDesc2", query = "SELECT f FROM FacturaPartida f WHERE f.desc2 = :desc2"),
     @NamedQuery(name = "FacturaPartida.findByDesc3", query = "SELECT f FROM FacturaPartida f WHERE f.desc3 = :desc3"),
-    @NamedQuery(name = "FacturaPartida.findByComi", query = "SELECT f FROM FacturaPartida f WHERE f.comi = :comi"),
-    @NamedQuery(name = "FacturaPartida.findByApar", query = "SELECT f FROM FacturaPartida f WHERE f.apar = :apar"),
     @NamedQuery(name = "FacturaPartida.findByActInv", query = "SELECT f FROM FacturaPartida f WHERE f.actInv = :actInv"),
     @NamedQuery(name = "FacturaPartida.findByNumAlm", query = "SELECT f FROM FacturaPartida f WHERE f.numAlm = :numAlm"),
-    @NamedQuery(name = "FacturaPartida.findByPolitApli", query = "SELECT f FROM FacturaPartida f WHERE f.politApli = :politApli"),
     @NamedQuery(name = "FacturaPartida.findByTipCam", query = "SELECT f FROM FacturaPartida f WHERE f.tipCam = :tipCam"),
     @NamedQuery(name = "FacturaPartida.findByUniVenta", query = "SELECT f FROM FacturaPartida f WHERE f.uniVenta = :uniVenta"),
     @NamedQuery(name = "FacturaPartida.findByTipoProd", query = "SELECT f FROM FacturaPartida f WHERE f.tipoProd = :tipoProd"),
-    @NamedQuery(name = "FacturaPartida.findByCveObs", query = "SELECT f FROM FacturaPartida f WHERE f.cveObs = :cveObs"),
-    @NamedQuery(name = "FacturaPartida.findByRegSerie", query = "SELECT f FROM FacturaPartida f WHERE f.regSerie = :regSerie"),
-    @NamedQuery(name = "FacturaPartida.findByELtpd", query = "SELECT f FROM FacturaPartida f WHERE f.eLtpd = :eLtpd"),
-    @NamedQuery(name = "FacturaPartida.findByTipoElem", query = "SELECT f FROM FacturaPartida f WHERE f.tipoElem = :tipoElem"),
     @NamedQuery(name = "FacturaPartida.findByNumMov", query = "SELECT f FROM FacturaPartida f WHERE f.numMov = :numMov"),
-    @NamedQuery(name = "FacturaPartida.findByTotPartida", query = "SELECT f FROM FacturaPartida f WHERE f.totPartida = :totPartida"),
-    @NamedQuery(name = "FacturaPartida.findByImprimir", query = "SELECT f FROM FacturaPartida f WHERE f.imprimir = :imprimir")})
+    @NamedQuery(name = "FacturaPartida.findByTotPartida", query = "SELECT f FROM FacturaPartida f WHERE f.totPartida = :totPartida")
+})
 public class FacturaPartida implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId

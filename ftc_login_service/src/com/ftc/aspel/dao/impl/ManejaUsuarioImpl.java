@@ -83,4 +83,18 @@ public class ManejaUsuarioImpl implements ManejaUsuario {
         return query.getResultList();
     }
 
+    @Override
+    public Usuario validaAccesoUsuario(String cuenta, String contrasenia) throws AspelException{
+        String sql = "SELECT u FROM Usuario u WHERE u.dsusucon = :cuenta AND u.dsvalcon = :contrasenia";
+        TypedQuery<Usuario> query = g.getEntityManager().createQuery(sql, Usuario.class);
+        query.setParameter("cuenta", cuenta);
+        query.setParameter("contrasenia", GenerateTokens.passValue(contrasenia));
+        if (query.getResultList().size() > 0) {
+            Usuario usuario = query.getSingleResult();
+            return usuario;
+        } else {
+            throw new AspelException("User/Password are incorrect.");
+        }
+    }
+    
 }

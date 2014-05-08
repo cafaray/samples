@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.ftc.aspel.model;
 
 import java.io.Serializable;
@@ -39,6 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "UsuarioDetalle.findByDsusuasp", query = "SELECT u FROM UsuarioDetalle u WHERE u.dsusuasp = :dsusuasp"),
     @NamedQuery(name = "UsuarioDetalle.findByTmstmp", query = "SELECT u FROM UsuarioDetalle u WHERE u.tmstmp = :tmstmp")})
 public class UsuarioDetalle implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -149,5 +149,5 @@ public class UsuarioDetalle implements Serializable {
     public String toString() {
         return "com.ftc.aspel.model.UsuarioDetalle[ idusudet=" + idusudet + " ]";
     }
-    
+
 }

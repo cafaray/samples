@@ -3,13 +3,9 @@
   <persistence-unit name="AspelDemoPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.ftc.aspel.model.FacturaPartida</class>
-    <class>com.ftc.aspel.model.Inventario</class>
     <class>com.ftc.aspel.model.Factura</class>
-    <class>com.ftc.aspel.model.FacturaPartidaCliente</class>
-    <class>com.ftc.aspel.model.UsuarioDetalle</class>
-    <class>com.ftc.aspel.model.Usuario</class>
-    <class>com.ftc.aspel.model.Sesion</class>
-    <class>com.ftc.aspel.model.Movimientos</class>
+    <class>com.ftc.aspel.model.FacturaPartidaCampoLibre</class>
+    <class>com.ftc.aspel.model.InventarioCampoLibre</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:firebirdsql://localhost:3050/C:\Program Files\Common Files\Aspel\Sistemas Aspel\SAE5.00\Empresa01\Datos\SAE50EMPRE01.FDB"/>
       <property name="javax.persistence.jdbc.password" value="masterkey"/>

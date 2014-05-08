@@ -1,6 +1,7 @@
 package com.ftc.aspel.dao.impl;
 
 import com.ftc.aspel.dao.ManejaSesion;
+import com.ftc.aspel.dao.ManejaUsuario;
 import com.ftc.aspel.exception.AspelException;
 import com.ftc.aspel.model.Sesion;
 import com.ftc.aspel.model.Usuario;
@@ -24,31 +25,20 @@ public class ManejaSesionImpl implements ManejaSesion {
 
     @Override
     public String iniciaSesion(String cuenta, String contrasenia) throws AspelException {
-        String sql = "SELECT u FROM Usuario u WHERE u.dsusucon = :cuenta AND u.dsvalcon = :contrasenia";
-        TypedQuery<Usuario> query = generic.getEntityManager().createQuery(sql, Usuario.class);
-        query.setParameter("cuenta", cuenta);
-        query.setParameter("contrasenia", GenerateTokens.passValue(contrasenia));
-        if (query.getResultList().size() > 0) {
-            Usuario usuario = query.getSingleResult();
-            sql = "SELECT s FROM Sesion s WHERE s.idusuari = :idusuario AND s.instatus = :estatus";
-            TypedQuery<Sesion> querySesion = generic.getEntityManager().createQuery(sql, Sesion.class);
-            querySesion.setParameter("idusuario", usuario);
-            querySesion.setParameter("estatus", "A");
-            //se registra/recupera la sesion
-            Sesion sesion;
-            if (querySesion.getResultList().size() > 0) {
-                sesion = querySesion.getSingleResult();
-                if (validaSesion(sesion)) {
-                    return sesion.getDstoken();
-                }
+        ManejaUsuario usuarios = new ManejaUsuarioImpl();
+        Usuario usuario = usuarios.validaAccesoUsuario(cuenta, contrasenia);
+        //String sql = "SELECT s FROM Sesion s WHERE s.idusuari = :idusuario AND s.instatus = :estatus";
+        TypedQuery<Sesion> querySesion = generic.getEntityManager().createNamedQuery("Sesion.activeSession", Sesion.class);
+        querySesion.setParameter("idusuario", usuario);
+        Sesion sesion;
+        if (querySesion.getResultList().size() > 0) {
+            sesion = querySesion.getSingleResult();
+            if (validaSesion(sesion)) {
+                return sesion.getDstoken();
             }
-            //registra la sesion
-            sesion = nuevaSesion(usuario);
-            return sesion.getDstoken();
-
-        } else {
-            throw new AspelException("User/Password are incorrect.");
-        }
+        }        
+        sesion = nuevaSesion(usuario);
+        return sesion.getDstoken();
 
     }
 
@@ -78,13 +68,15 @@ public class ManejaSesionImpl implements ManejaSesion {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         //valida que la fecha de inicio sea menor o igual que hoy
         if (sesion.getDtfecini().after(new Date())) {
-            throw new AspelException("Session date is impossible: " + dateFormat.format(sesion.getDtfecini()));
+            return false;
+            //throw new AspelException("Session date is impossible: " + dateFormat.format(sesion.getDtfecini()));
         }
         //valida la fecha de inicio vs fecha de fin
         if (sesion.getDtfecfin().before(new Date())) {
             sesion.setInstatus("C");
             generic.update(sesion);
-            throw new AspelException("Session date is end: " + dateFormat.format(sesion.getDtfecfin()));
+            return false;
+            //throw new AspelException("Session date is end: " + dateFormat.format(sesion.getDtfecfin()));
         }
         return true;
     }
@@ -94,7 +86,7 @@ public class ManejaSesionImpl implements ManejaSesion {
         query.setParameter("cuenta", cuenta);
         Usuario usuario = query.getSingleResult();
         if (usuario != null) {
-            Sesion sesion = recuperaSesionActiva(usuario.getIdusucon());
+            Sesion sesion = recuperaSesionActiva(usuario);
             if (sesion == null) {
                 throw new AspelException(String.format("There is no active session for user %s", cuenta));
             } else {
@@ -138,16 +130,17 @@ public class ManejaSesionImpl implements ManejaSesion {
     public String sesionActiva(String cuenta) throws AspelException {
         TypedQuery<Usuario> query = generic.getEntityManager().createNamedQuery("Usuario.findByCuenta", Usuario.class);
         query.setParameter("cuenta", cuenta);
-        Usuario usuario = query.getSingleResult();
-        Sesion sesion = recuperaSesionActiva(usuario.getIdusucon());
-        if (sesion != null) {
-            return sesion.getDstoken();
+        List<Usuario> usuarios = query.getResultList();
+        if (usuarios != null && usuarios.size() > 0) {
+            Usuario usuario = query.getSingleResult();
+            Sesion sesion = recuperaSesionActiva(usuario);            
+            return sesion!=null?sesion.getDstoken():"";
         } else {
             throw new AspelException(String.format("There is no active session for user %s.", cuenta));
         }
     }
 
-    private Sesion recuperaSesionActiva(Integer idusuario) throws AspelException {
+    private Sesion recuperaSesionActiva(Usuario idusuario) throws AspelException {
         TypedQuery<Sesion> query = generic.getEntityManager().createNamedQuery("Sesion.activeSession", Sesion.class);
         query.setParameter("idusuario", idusuario);
         List<Sesion> sesiones = query.getResultList();
@@ -156,10 +149,14 @@ public class ManejaSesionImpl implements ManejaSesion {
             Iterator<Sesion> lista = sesiones.iterator();
             int x = 0;
             do {
-                if (x > 0) {
+                if (x > 0 && sesion!=null) {
                     cierraSesion(sesion.getDstoken());
                 }
                 sesion = lista.next();
+                if(!validaSesion(sesion)){
+                    cierraSesion(sesion.getDstoken());
+                    sesion = null;
+                }
                 x++;
             } while (lista.hasNext());
             return sesion;
@@ -186,8 +183,15 @@ public class ManejaSesionImpl implements ManejaSesion {
     }
 
     @Override
-    public List<Sesion> listar()throws AspelException{
-        return generic.listar(Sesion.class);
+    public List<Sesion> listar() throws AspelException {
+        TypedQuery<Sesion> query = generic.getEntityManager().createNamedQuery("Sesion.findAll",Sesion.class);
+        List<Sesion> sesiones = query.getResultList();
+        if (sesiones.size()>0){
+            System.out.println("Si hay sesiones: "+sesiones.size());
+            return sesiones;
+        }
+        return null;
+        //return generic.listar(Sesion.class);
     }
-    
+
 }

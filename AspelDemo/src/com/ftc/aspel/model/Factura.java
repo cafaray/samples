@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.ftc.aspel.model;
 
 import java.io.Serializable;
@@ -20,10 +14,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author omash
- */
 @Entity
 @Table(name = "FACTF01", catalog = "", schema = "", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"CVE_CLPV", "CVE_DOC"}),
@@ -33,57 +23,25 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Factura.findAll", query = "SELECT f FROM Factura f"),
     @NamedQuery(name = "Factura.findByTipDoc", query = "SELECT f FROM Factura f WHERE f.tipDoc = :tipDoc"),
     @NamedQuery(name = "Factura.findByCveDoc", query = "SELECT f FROM Factura f WHERE f.cveDoc = :cveDoc"),
-    @NamedQuery(name = "Factura.findByCveClpv", query = "SELECT f FROM Factura f WHERE f.cveClpv = :cveClpv"),
     @NamedQuery(name = "Factura.findByStatus", query = "SELECT f FROM Factura f WHERE f.status = :status"),
-    @NamedQuery(name = "Factura.findByDatMostr", query = "SELECT f FROM Factura f WHERE f.datMostr = :datMostr"),
-    @NamedQuery(name = "Factura.findByCveVend", query = "SELECT f FROM Factura f WHERE f.cveVend = :cveVend"),
-    @NamedQuery(name = "Factura.findByCvePedi", query = "SELECT f FROM Factura f WHERE f.cvePedi = :cvePedi"),
     @NamedQuery(name = "Factura.findByFechaDoc", query = "SELECT f FROM Factura f WHERE f.fechaDoc = :fechaDoc"),
-    @NamedQuery(name = "Factura.findByFechaEnt", query = "SELECT f FROM Factura f WHERE f.fechaEnt = :fechaEnt"),
     @NamedQuery(name = "Factura.findByFechaVen", query = "SELECT f FROM Factura f WHERE f.fechaVen = :fechaVen"),
     @NamedQuery(name = "Factura.findByFechaCancela", query = "SELECT f FROM Factura f WHERE f.fechaCancela = :fechaCancela"),
     @NamedQuery(name = "Factura.findByCanTot", query = "SELECT f FROM Factura f WHERE f.canTot = :canTot"),
-    @NamedQuery(name = "Factura.findByImpTot1", query = "SELECT f FROM Factura f WHERE f.impTot1 = :impTot1"),
-    @NamedQuery(name = "Factura.findByImpTot2", query = "SELECT f FROM Factura f WHERE f.impTot2 = :impTot2"),
-    @NamedQuery(name = "Factura.findByImpTot3", query = "SELECT f FROM Factura f WHERE f.impTot3 = :impTot3"),
     @NamedQuery(name = "Factura.findByImpTot4", query = "SELECT f FROM Factura f WHERE f.impTot4 = :impTot4"),
     @NamedQuery(name = "Factura.findByDesTot", query = "SELECT f FROM Factura f WHERE f.desTot = :desTot"),
     @NamedQuery(name = "Factura.findByDesFin", query = "SELECT f FROM Factura f WHERE f.desFin = :desFin"),
     @NamedQuery(name = "Factura.findByComTot", query = "SELECT f FROM Factura f WHERE f.comTot = :comTot"),
-    @NamedQuery(name = "Factura.findByCondicion", query = "SELECT f FROM Factura f WHERE f.condicion = :condicion"),
-    @NamedQuery(name = "Factura.findByCveObs", query = "SELECT f FROM Factura f WHERE f.cveObs = :cveObs"),
-    @NamedQuery(name = "Factura.findByNumAlma", query = "SELECT f FROM Factura f WHERE f.numAlma = :numAlma"),
-    @NamedQuery(name = "Factura.findByActCxc", query = "SELECT f FROM Factura f WHERE f.actCxc = :actCxc"),
     @NamedQuery(name = "Factura.findByActCoi", query = "SELECT f FROM Factura f WHERE f.actCoi = :actCoi"),
-    @NamedQuery(name = "Factura.findByEnlazado", query = "SELECT f FROM Factura f WHERE f.enlazado = :enlazado"),
-    @NamedQuery(name = "Factura.findByTipDocE", query = "SELECT f FROM Factura f WHERE f.tipDocE = :tipDocE"),
     @NamedQuery(name = "Factura.findByNumMoned", query = "SELECT f FROM Factura f WHERE f.numMoned = :numMoned"),
     @NamedQuery(name = "Factura.findByTipcamb", query = "SELECT f FROM Factura f WHERE f.tipcamb = :tipcamb"),
-    @NamedQuery(name = "Factura.findByNumPagos", query = "SELECT f FROM Factura f WHERE f.numPagos = :numPagos"),
-    @NamedQuery(name = "Factura.findByFechaelab", query = "SELECT f FROM Factura f WHERE f.fechaelab = :fechaelab"),
-    @NamedQuery(name = "Factura.findByPrimerpago", query = "SELECT f FROM Factura f WHERE f.primerpago = :primerpago"),
     @NamedQuery(name = "Factura.findByRfc", query = "SELECT f FROM Factura f WHERE f.rfc = :rfc"),
     @NamedQuery(name = "Factura.findByCtlpol", query = "SELECT f FROM Factura f WHERE f.ctlpol = :ctlpol"),
     @NamedQuery(name = "Factura.findByEscfd", query = "SELECT f FROM Factura f WHERE f.escfd = :escfd"),
-    @NamedQuery(name = "Factura.findByAutoriza", query = "SELECT f FROM Factura f WHERE f.autoriza = :autoriza"),
     @NamedQuery(name = "Factura.findBySerie", query = "SELECT f FROM Factura f WHERE f.serie = :serie"),
     @NamedQuery(name = "Factura.findByFolio", query = "SELECT f FROM Factura f WHERE f.folio = :folio"),
-    @NamedQuery(name = "Factura.findByAutoanio", query = "SELECT f FROM Factura f WHERE f.autoanio = :autoanio"),
-    @NamedQuery(name = "Factura.findByDatEnvio", query = "SELECT f FROM Factura f WHERE f.datEnvio = :datEnvio"),
-    @NamedQuery(name = "Factura.findByContado", query = "SELECT f FROM Factura f WHERE f.contado = :contado"),
-    @NamedQuery(name = "Factura.findByCveBita", query = "SELECT f FROM Factura f WHERE f.cveBita = :cveBita"),
-    @NamedQuery(name = "Factura.findByBloq", query = "SELECT f FROM Factura f WHERE f.bloq = :bloq"),
-    @NamedQuery(name = "Factura.findByFormaenvio", query = "SELECT f FROM Factura f WHERE f.formaenvio = :formaenvio"),
-    @NamedQuery(name = "Factura.findByDesFinPorc", query = "SELECT f FROM Factura f WHERE f.desFinPorc = :desFinPorc"),
-    @NamedQuery(name = "Factura.findByDesTotPorc", query = "SELECT f FROM Factura f WHERE f.desTotPorc = :desTotPorc"),
-    @NamedQuery(name = "Factura.findByImporte", query = "SELECT f FROM Factura f WHERE f.importe = :importe"),
-    @NamedQuery(name = "Factura.findByComTotPorc", query = "SELECT f FROM Factura f WHERE f.comTotPorc = :comTotPorc"),
-    @NamedQuery(name = "Factura.findByMetododepago", query = "SELECT f FROM Factura f WHERE f.metododepago = :metododepago"),
-    @NamedQuery(name = "Factura.findByNumctapago", query = "SELECT f FROM Factura f WHERE f.numctapago = :numctapago"),
-    @NamedQuery(name = "Factura.findByTipDocAnt", query = "SELECT f FROM Factura f WHERE f.tipDocAnt = :tipDocAnt"),
-    @NamedQuery(name = "Factura.findByDocAnt", query = "SELECT f FROM Factura f WHERE f.docAnt = :docAnt"),
-    @NamedQuery(name = "Factura.findByTipDocSig", query = "SELECT f FROM Factura f WHERE f.tipDocSig = :tipDocSig"),
-    @NamedQuery(name = "Factura.findByDocSig", query = "SELECT f FROM Factura f WHERE f.docSig = :docSig")})
+    @NamedQuery(name = "Factura.findByImporte", query = "SELECT f FROM Factura f WHERE f.importe = :importe")
+})
 public class Factura implements Serializable {
     private static final long serialVersionUID = 1L;
     @Column(name = "TIP_DOC", length = 1)

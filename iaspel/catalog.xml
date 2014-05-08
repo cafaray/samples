@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="http://localhost:7070/iaspel/sesionServicios?" uri="xml-resources/web-service-references/sesionServicios_/wsdl/localhost_7070/iaspel/sesionServicios"/>
+    <system systemId="http://localhost:7070/iaspel/sesionServicios?wsdl" uri="xml-resources/web-service-references/sesionServicios/wsdl/localhost_7070/iaspel/sesionServicios.wsdl"/>
+    <system systemId="http://localhost:7070/iaspel/sesionServicios?xsd=1" uri="xml-resources/web-service-references/sesionServicios/wsdl/localhost_7070/iaspel/sesionServicios.xsd_1.xsd"/>
+    <system systemId="http://localhost:7070/iaspel/usuarioServicios?wsdl" uri="xml-resources/web-service-references/usuarioServicios/wsdl/localhost_7070/iaspel/usuarioServicios.wsdl"/>
+    <system systemId="http://localhost:7070/iaspel/usuarioServicios?xsd=1" uri="xml-resources/web-service-references/usuarioServicios/wsdl/localhost_7070/iaspel/usuarioServicios.xsd_1.xsd"/>
+</catalog>

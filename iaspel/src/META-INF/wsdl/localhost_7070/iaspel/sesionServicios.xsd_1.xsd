@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is JAX-WS RI 2.2.6-1b01  svn-revision#13094. --><xs:schema xmlns:tns="http://ws.aspel.ftc.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://ws.aspel.ftc.com/">
+
+<xs:element name="cierraSesion" type="tns:cierraSesion"/>
+
+<xs:element name="cierraSesionResponse" type="tns:cierraSesionResponse"/>
+
+<xs:element name="datosUsuario" type="tns:datosUsuario"/>
+
+<xs:element name="datosUsuarioResponse" type="tns:datosUsuarioResponse"/>
+
+<xs:element name="iniciarSesion" type="tns:iniciarSesion"/>
+
+<xs:element name="iniciarSesionResponse" type="tns:iniciarSesionResponse"/>
+
+<xs:element name="sesiones" type="tns:sesiones"/>
+
+<xs:element name="sesionesResponse" type="tns:sesionesResponse"/>
+
+<xs:element name="usuario" type="tns:usuario"/>
+
+<xs:element name="usuarioDetalle" type="tns:usuarioDetalle"/>
+
+<xs:complexType name="datosUsuario">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="datosUsuarioResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:usuarioDetalle" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="usuarioDetalle">
+<xs:sequence>
+<xs:element name="dsusuape" type="xs:string" minOccurs="0"/>
+<xs:element name="dsusuasp" type="xs:string" minOccurs="0"/>
+<xs:element name="dsusunom" type="xs:string" minOccurs="0"/>
+<xs:element name="idusuari" type="tns:usuario" minOccurs="0"/>
+<xs:element name="idusudet" type="xs:int" minOccurs="0"/>
+<xs:element name="tmstmp" type="xs:dateTime" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="usuario">
+<xs:sequence>
+<xs:element name="dsusucon" type="xs:string" minOccurs="0"/>
+<xs:element name="dsvalcon" type="xs:string" minOccurs="0"/>
+<xs:element name="idusucon" type="xs:int" minOccurs="0"/>
+<xs:element name="instatus" type="xs:string" minOccurs="0"/>
+<xs:element name="tmstmp" type="xs:dateTime" minOccurs="0"/>
+<xs:element ref="tns:usuarioDetalle" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="iniciarSesion">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+<xs:element name="arg1" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="iniciarSesionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cierraSesion">
+<xs:sequence>
+<xs:element name="arg0" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="cierraSesionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="sesiones">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="sesionesResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:wrapperSesion" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="wrapperSesion">
+<xs:sequence>
+<xs:element name="dstoken" type="xs:string" minOccurs="0"/>
+<xs:element name="dtfecfin" type="xs:string" minOccurs="0"/>
+<xs:element name="dtfecini" type="xs:string" minOccurs="0"/>
+<xs:element name="idnumses" type="xs:int"/>
+<xs:element name="instatus" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

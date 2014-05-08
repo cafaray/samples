@@ -25,9 +25,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Sesion.findAll", query = "SELECT s FROM Sesion s"),
     @NamedQuery(name = "Sesion.findById", query = "SELECT s FROM Sesion s WHERE s.idnumses = :id"),
     @NamedQuery(name = "Sesion.findByToken", query = "SELECT s FROM Sesion s WHERE s.dstoken = :token"),
-    @NamedQuery(name = "Sesion.activeSession", query = "SELECT s FROM Sesion s WHERE s.instatus = 'A'")
+    @NamedQuery(name = "Sesion.activeSessions", query = "SELECT s FROM Sesion s WHERE s.instatus = 'A'"),
+    @NamedQuery(name = "Sesion.activeSession", query = "SELECT s FROM Sesion s WHERE s.instatus = 'A' AND s.idusuari = :idusuario"),
 })
 public class Sesion implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -152,5 +154,5 @@ public class Sesion implements Serializable {
     public String toString() {
         return "com.ftc.aspel.model.Sesion[ idnumses=" + idnumses + " ]";
     }
-    
+
 }

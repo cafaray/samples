@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.ftc.aspel.model;
 
 import java.io.Serializable;
@@ -27,10 +21,6 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author omash
- */
 @Entity
 @Table(name = "kusm00t")
 @XmlRootElement
@@ -38,11 +28,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
     @NamedQuery(name = "Usuario.findByIdusucon", query = "SELECT u FROM Usuario u WHERE u.idusucon = :idusucon"),
     @NamedQuery(name = "Usuario.findByCuenta", query = "SELECT u FROM Usuario u WHERE u.dsusucon = :cuenta"),
+    @NamedQuery(name = "Usuario.findByCuentaPasswd", query = "SELECT u FROM Usuario u WHERE u.dsusucon = :cuenta AND u.dsvalcon = :contrasenia"),
     @NamedQuery(name = "Usuario.findByDsvalcon", query = "SELECT u FROM Usuario u WHERE u.dsvalcon = :dsvalcon"),
     @NamedQuery(name = "Usuario.activeUsers", query = "SELECT u FROM Usuario u WHERE u.instatus = 'A'"),
-    @NamedQuery(name = "Usuario.suspendUsers", query = "SELECT u FROM Usuario u WHERE u.instatus = 'S'"),
-    })
+    @NamedQuery(name = "Usuario.suspendUsers", query = "SELECT u FROM Usuario u WHERE u.instatus = 'S'"),})
 public class Usuario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -174,5 +165,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "com.ftc.aspel.model.Usuario[ idusucon=" + idusucon + " ]";
     }
-    
+
 }
