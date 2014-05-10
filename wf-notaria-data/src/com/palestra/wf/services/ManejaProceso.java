@@ -3,6 +3,8 @@ package com.palestra.wf.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jws.WebService;
+
 import com.palestra.wf.dao.impl.DAOProceso;
 import com.palestra.wf.exception.WorkFlowException;
 import com.palestra.wf.model.Actividad;
@@ -11,6 +13,9 @@ import com.palestra.wf.model.ProcesoTransiciones;
 import com.palestra.wf.model.Transicion;
 import com.palestra.wf.model.TransicionDestino;
 
+
+
+@WebService
 public class ManejaProceso {
 
 	public ManejaProceso() {}

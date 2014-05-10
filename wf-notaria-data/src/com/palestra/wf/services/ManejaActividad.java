@@ -17,6 +17,7 @@ import com.palestra.wf.model.Parametro;
 import com.palestra.wf.model.Transicion;
 import com.palestra.wf.model.TransicionActividad;
 import com.palestra.wf.model.TransicionDestino;
+import com.palestra.wf.model.util.ActividadArchivo;
 
 @WebService
 public class ManejaActividad {
@@ -163,12 +164,13 @@ public class ManejaActividad {
 	}
 	
 	@WebMethod 
-	public int cargarActividades(List<Actividad> actividades)throws WorkFlowException{
+	public int cargarActividadesArchivo(List<ActividadArchivo> actividades)throws WorkFlowException{
 		int cuentaActividad=0;
 		if (actividades!=null && actividades.size()>0){
 			DAOActividad dao = new DAOActividad();
-			for (Actividad actividad:actividades){
-				dao.registraActividad(actividad);
+			for (ActividadArchivo actividad:actividades){
+				dao.registraActividad(actividad.getActividad());
+				dao.actualizarParametros(actividad.getActividad(), actividad.getParametros());
 				cuentaActividad++;
 			}
 		}
