@@ -1,6 +1,8 @@
 package com.ftc.iaspel.window;
 
+import com.ftc.exceptions.FTCServiceException;
 import com.ftc.iaspel.util.Conexion;
+
 import javax.swing.JOptionPane;
 
 public class InicioSesion extends javax.swing.JDialog {
@@ -11,7 +13,7 @@ public class InicioSesion extends javax.swing.JDialog {
         txtUsuario.setText("sysadmin");
         txtContrasenia.setText("sysadm");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
@@ -33,7 +35,7 @@ public class InicioSesion extends javax.swing.JDialog {
 
         cmdCancelar.setText("Cancelar");
         cmdCancelar.addActionListener(new java.awt.event.ActionListener() {
-            
+
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmdCancelarActionPerformed(evt);
@@ -114,14 +116,18 @@ public class InicioSesion extends javax.swing.JDialog {
     }
 
     private void cmdConectarActionPerformed(java.awt.event.ActionEvent evt) {
-        //TODO genera la conexion a la base de datos
-        Conexion.conectar(this.txtUsuario.getText(), new String(this.txtContrasenia.getPassword()));
-        if (!Conexion.isConectado()) {
-            JOptionPane.showMessageDialog(rootPane, "No se logró iniciar sesión. El usuario/contraseña es incorrecto.");
-            txtUsuario.setText("");
-            txtContrasenia.setText("");
-        } else {            
-            this.dispose();
+        try {
+            Conexion.conectar(this.txtUsuario.getText(), new String(this.txtContrasenia.getPassword()));
+            if (!Conexion.isConectado()) {
+                JOptionPane.showMessageDialog(rootPane, "No se logró iniciar sesión. El usuario/contraseña es incorrecto.");
+                txtUsuario.setText("");
+                txtContrasenia.setText("");
+            } else {
+                System.out.println("Bienvenido ...");
+                this.dispose();
+            }
+        } catch (FTCServiceException e) {
+            JOptionPane.showMessageDialog(rootPane, "The server connection was refused, review if the services are available.");            
         }
     }
 

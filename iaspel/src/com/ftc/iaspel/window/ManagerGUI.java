@@ -1,6 +1,6 @@
 package com.ftc.iaspel.window;
 
-import com.ftc.aspel.ws.WrapperUsuarioDetalle;
+import com.ftc.exceptions.FTCServiceException;
 import com.ftc.iaspel.enums.TipoUsuario;
 import com.ftc.iaspel.util.Conexion;
 import javax.swing.JOptionPane;
@@ -140,8 +140,11 @@ public class ManagerGUI extends javax.swing.JFrame {
             login.setLocation(200, 200);
             login.setVisible(true);
         } else {
-            //TODO cerrar la conexion
-            Conexion.desconectar();
+            try {
+                Conexion.desconectar();
+            } catch (FTCServiceException e) {
+                JOptionPane.showMessageDialog(rootPane, "The server connection was refused, review if the services are available.");
+            }
         }
         System.out.println(Conexion.isConectado());
         mnuConectar.setText(Conexion.isConectado() ? "Deconectar" : "Conectar");
